@@ -6,7 +6,6 @@ function linearSearch($arr, $target) {
     return -1;
 }
 
-$arr = [5, 2, 8, 1, 9, 3];
-echo linearSearch($arr, 8) . "\n";
-echo linearSearch($arr, 7) . "\n";
+$arr = [1, 2, 3, 4, 5];
+echo linearSearch($arr, 3);
 ?>

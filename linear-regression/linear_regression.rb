@@ -1,26 +1,25 @@
 class LinearRegression
   def initialize
-    @w, @b = 0, 0
+    @slope = 0
+    @intercept = 0
   end
   
   def fit(x, y)
-    x_mean = x.sum.to_f / x.size
-    y_mean = y.sum.to_f / y.size
+    n = x.length
+    sum_x = x.sum
+    sum_y = y.sum
+    sum_xy = x.zip(y).map { |xi, yi| xi * yi }.sum
+    sum_x2 = x.map { |xi| xi * xi }.sum
     
-    num = den = 0
-    x.each_with_index do |xi, i|
-      num += (xi - x_mean) * (y[i] - y_mean)
-      den += (xi - x_mean) ** 2
-    end
-    @w = num / den
-    @b = y_mean - @w * x_mean
+    @slope = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x).to_f
+    @intercept = (sum_y - @slope * sum_x) / n.to_f
   end
   
   def predict(x)
-    @w * x + @b
+    x.map { |xi| @slope * xi + @intercept }
   end
 end
 
-model = LinearRegression.new
-model.fit([1, 2, 3, 4, 5], [2, 4, 6, 8, 10])
-puts model.predict(6) # 12.0
+lr = LinearRegression.new
+lr.fit([1, 2, 3, 4, 5], [2, 4, 6, 8, 10])
+puts lr.predict([6, 7]).inspect

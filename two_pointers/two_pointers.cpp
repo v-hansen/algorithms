@@ -1,5 +1,5 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 vector<int> twoSum(vector<int>& arr, int target) {
@@ -7,13 +7,17 @@ vector<int> twoSum(vector<int>& arr, int target) {
     while (left < right) {
         int sum = arr[left] + arr[right];
         if (sum == target) return {left, right};
-        sum < target ? left++ : right--;
+        else if (sum < target) left++;
+        else right--;
     }
     return {};
 }
 
 int main() {
-    vector<int> arr = {1, 2, 3, 4, 6};
-    auto result = twoSum(arr, 6);
-    cout << "[" << result[0] << ", " << result[1] << "]" << endl;
+    vector<int> arr = {1, 2, 3, 4, 5};
+    auto result = twoSum(arr, 7);
+    if (!result.empty()) {
+        cout << "[" << result[0] << ", " << result[1] << "]" << endl;
+    }
+    return 0;
 }

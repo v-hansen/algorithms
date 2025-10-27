@@ -1,5 +1,4 @@
 package main
-
 import "fmt"
 
 func linearSearch(arr []int, target int) int {
@@ -12,7 +11,6 @@ func linearSearch(arr []int, target int) int {
 }
 
 func main() {
-    arr := []int{5, 2, 8, 1, 9, 3}
-    fmt.Println(linearSearch(arr, 8))
-    fmt.Println(linearSearch(arr, 7))
+    arr := []int{1, 2, 3, 4, 5}
+    fmt.Println(linearSearch(arr, 3))
 }

@@ -1,38 +1,24 @@
-def fibonacci(n):
+def fibonacci_recursive(n):
     if n <= 1:
         return n
-    return fibonacci(n - 1) + fibonacci(n - 2)
+    return fibonacci_recursive(n-1) + fibonacci_recursive(n-2)
 
-def print_fibonacci_sequence(n):
-    """
-    Recursively prints the Fibonacci sequence up to the nth term.
+def fibonacci_iterative(n):
+    if n <= 1:
+        return n
+    a, b = 0, 1
+    for _ in range(2, n + 1):
+        a, b = b, a + b
+    return b
 
-    This function uses a recursive approach to generate Fibonacci numbers
-    and prints each number in the sequence up to the nth term.
+def fibonacci_memoized(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fibonacci_memoized(n-1, memo) + fibonacci_memoized(n-2, memo)
+    return memo[n]
 
-    Args:
-    n (int): The number of terms in the Fibonacci sequence to print.
-             Must be a non-negative integer.
-
-    Returns:
-    None: This function prints the sequence but does not return any value.
-
-    Raises:
-    ValueError: If n is negative.
-
-    Example:
-    >>> print_fibonacci_sequence(5)
-    0
-    1
-    1
-    2
-    3
-    """
-    if n < 0:
-        raise ValueError("n must be a non-negative integer")
-    
-    if n == 0:
-        return
-    
-    print_fibonacci_sequence(n - 1)
-    print(fibonacci(n - 1)) 
+print(f"Recursive: {fibonacci_recursive(10)}")
+print(f"Iterative: {fibonacci_iterative(10)}")
+print(f"Memoized: {fibonacci_memoized(10)}")

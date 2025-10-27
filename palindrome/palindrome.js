@@ -1,7 +1,22 @@
-function isPalindrome(str) {
-    const cleaned = str.toLowerCase();
+function isPalindromeSimple(s) {
+    return s === s.split('').reverse().join('');
+}
+
+function isPalindromeTwoPointers(s) {
+    let left = 0, right = s.length - 1;
+    while (left < right) {
+        if (s[left] !== s[right]) return false;
+        left++;
+        right--;
+    }
+    return true;
+}
+
+function isPalindromeClean(s) {
+    const cleaned = s.toLowerCase().replace(/[^a-z0-9]/g, '');
     return cleaned === cleaned.split('').reverse().join('');
 }
 
-console.log(isPalindrome("racecar"));
-console.log(isPalindrome("hello"));
+console.log(isPalindromeSimple("racecar"));
+console.log(isPalindromeTwoPointers("A man a plan a canal Panama"));
+console.log(isPalindromeClean("race a car"));

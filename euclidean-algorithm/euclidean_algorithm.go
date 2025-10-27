@@ -1,3 +1,13 @@
 package main
 import "fmt"
-func main() { fmt.Println("euclidean-algorithm in Go") }
+
+func gcd(a, b int) int {
+    for b != 0 {
+        a, b = b, a%b
+    }
+    return a
+}
+
+func main() {
+    fmt.Println(gcd(48, 18))
+}

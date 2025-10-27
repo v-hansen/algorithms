@@ -1,5 +1,4 @@
 package main
-
 import "fmt"
 
 func twoSum(arr []int, target int) []int {
@@ -8,8 +7,7 @@ func twoSum(arr []int, target int) []int {
         sum := arr[left] + arr[right]
         if sum == target {
             return []int{left, right}
-        }
-        if sum < target {
+        } else if sum < target {
             left++
         } else {
             right--
@@ -19,6 +17,7 @@ func twoSum(arr []int, target int) []int {
 }
 
 func main() {
-    result := twoSum([]int{1, 2, 3, 4, 6}, 6)
-    fmt.Printf("[%d, %d]\n", result[0], result[1])
+    arr := []int{1, 2, 3, 4, 5}
+    result := twoSum(arr, 7)
+    fmt.Println(result)
 }

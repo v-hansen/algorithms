@@ -1,15 +1,16 @@
 (defn bubble-sort [arr]
-  (let [n (count arr)]
-    (loop [arr (vec arr) i 0]
-      (if (< i (dec n))
-        (recur
-          (loop [arr arr j 0]
-            (if (< j (- n i 1))
-              (if (> (nth arr j) (nth arr (inc j)))
-                (recur (assoc arr j (nth arr (inc j)) (inc j) (nth arr j)) (inc j))
-                (recur arr (inc j)))
-              arr))
-          (inc i))
-        arr))))
+  (loop [arr arr n (count arr)]
+    (if (<= n 1)
+      arr
+      (let [[new-arr swapped] 
+            (reduce (fn [[acc swapped] i]
+                     (if (and (< (inc i) (count acc))
+                             (> (nth acc i) (nth acc (inc i))))
+                       [(assoc acc i (nth acc (inc i)) (inc i) (nth acc i)) true]
+                       [acc swapped]))
+                   [arr false] (range (dec n)))]
+        (if swapped
+          (recur new-arr (dec n))
+          new-arr)))))
 
 (println (bubble-sort [64 34 25 12 22 11 90]))

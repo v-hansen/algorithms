@@ -3,9 +3,21 @@ function twoSum(arr, target) {
     while (left < right) {
         const sum = arr[left] + arr[right];
         if (sum === target) return [left, right];
-        sum < target ? left++ : right--;
+        else if (sum < target) left++;
+        else right--;
     }
     return [];
 }
 
-console.log(twoSum([1, 2, 3, 4, 6], 6)); // [1, 3]
+function isPalindrome(s) {
+    let left = 0, right = s.length - 1;
+    while (left < right) {
+        if (s[left] !== s[right]) return false;
+        left++;
+        right--;
+    }
+    return true;
+}
+
+console.log(twoSum([1, 2, 3, 4, 5], 7));
+console.log(isPalindrome("racecar"));

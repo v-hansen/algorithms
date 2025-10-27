@@ -1,13 +1,10 @@
 (defn binary-search [arr target]
   (loop [left 0 right (dec (count arr))]
-    (if (<= left right)
-      (let [mid (+ left (quot (- right left) 2))]
+    (when (<= left right)
+      (let [mid (quot (+ left right) 2)]
         (cond
           (= (nth arr mid) target) mid
           (< (nth arr mid) target) (recur (inc mid) right)
-          :else (recur left (dec mid))))
-      -1)))
+          :else (recur left (dec mid)))))))
 
-(def arr [1 3 5 7 9 11])
-(println (binary-search arr 7))
-(println (binary-search arr 4))
+(println (binary-search [1 2 3 4 5] 3))
