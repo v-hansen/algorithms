@@ -21,10 +21,20 @@ class Trie {
         }
         return node.isEnd
     }
+    
+    fun startsWith(prefix: String): Boolean {
+        var node = root
+        for (char in prefix) {
+            node = node.children[char] ?: return false
+        }
+        return true
+    }
 }
 
 fun main() {
     val trie = Trie()
     trie.insert("hello")
-    println(trie.search("hello"))
+    trie.insert("world")
+    println("Search 'hello': ${trie.search("hello")}")
+    println("Starts with 'hel': ${trie.startsWith("hel")}")
 }
