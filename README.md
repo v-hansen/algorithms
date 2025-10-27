@@ -1,5 +1,11 @@
 # 🚀 Multi-Language Algorithm Library
 
+[![Algorithms](https://img.shields.io/badge/algorithms-34-blue.svg)](./ALGORITHMS.md)
+[![Languages](https://img.shields.io/badge/languages-13-green.svg)](#-supported-languages)
+[![Implementations](https://img.shields.io/badge/implementations-442-orange.svg)](#-project-overview)
+[![License](https://img.shields.io/badge/license-MIT-purple.svg)](./LICENSE)
+[![Completion](https://img.shields.io/badge/completion-100%25-brightgreen.svg)](#-project-overview)
+
 A comprehensive collection of **34 fundamental algorithms** implemented in **13 programming languages**. This repository serves as both a learning resource and a practical reference for algorithm implementations across different programming paradigms.
 
 ## 📊 Project Overview
@@ -28,6 +34,10 @@ A comprehensive collection of **34 fundamental algorithms** implemented in **13 
 | TypeScript | `.ts` | Typed JavaScript |
 
 ## 📚 Algorithm Categories
+
+> 💡 **See [ALGORITHMS.md](./ALGORITHMS.md) for detailed complexity analysis, use cases, and implementation notes for each algorithm.**
+> 
+> 📊 **See [DIAGRAMS.md](./DIAGRAMS.md) for visual flowcharts and decision trees.**
 
 ### 🔍 **Search & Basic Algorithms**
 | Algorithm | Time Complexity | Space Complexity | Use Case |
