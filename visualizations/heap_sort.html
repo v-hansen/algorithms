@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heap Sort</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Heap Sort</h1>
+    <canvas id="canvas" width="800" height="300"></canvas>
+    <div class="controls">
+        <button onclick="generate()">New Array</button>
+        <button onclick="sort()">Sort</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let arr = [];
+
+        function generate() {
+            arr = Array.from({length: 30}, () => Math.floor(Math.random() * 100) + 10);
+            draw();
+        }
+
+        function draw(h = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const w = canvas.width / arr.length;
+            arr.forEach((v, i) => {
+                ctx.fillStyle = h.includes(i) ? '#ffc107' : '#007bff';
+                ctx.fillRect(i * w, canvas.height - v * 2.5, w - 2, v * 2.5);
+            });
+        }
+
+        async function sort() {
+            const n = arr.length;
+            for (let i = Math.floor(n / 2) - 1; i >= 0; i--) await heapify(n, i);
+            for (let i = n - 1; i > 0; i--) {
+                [arr[0], arr[i]] = [arr[i], arr[0]];
+                draw([0, i]);
+                await new Promise(resolve => setTimeout(resolve, 100));
+                await heapify(i, 0);
+            }
+            draw();
+        }
+
+        async function heapify(n, i) {
+            let largest = i, l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && arr[l] > arr[largest]) largest = l;
+            if (r < n && arr[r] > arr[largest]) largest = r;
+            if (largest !== i) {
+                [arr[i], arr[largest]] = [arr[largest], arr[i]];
+                draw([i, largest]);
+                await new Promise(resolve => setTimeout(resolve, 100));
+                await heapify(n, largest);
+            }
+        }
+
+        generate();
+    </script>
+</body>
+</html>

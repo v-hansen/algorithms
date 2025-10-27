@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Algorithms Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        
+        #canvas {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            display: block;
+            margin: 20px auto;
+            background: white;
+        }
+        
+        .info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Graph Traversal Animation</h1>
+        
+        <div class="controls">
+            <button onclick="generateGraph()">🔄 New Graph</button>
+            <button onclick="startDFS()" id="dfsBtn">🔍 Depth-First Search</button>
+            <button onclick="startBFS()" id="bfsBtn">📊 Breadth-First Search</button>
+            <button onclick="reset()" id="resetBtn">⏹️ Reset</button>
+        </div>
+        
+        <canvas id="canvas" width="800" height="400"></canvas>
+        
+        <div class="info">
+            <div id="algorithmInfo">Click an algorithm to see graph traversal in action!</div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #007bff;"></div>
+                    <span>Unvisited</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ffc107;"></div>
+                    <span>Current</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #28a745;"></div>
+                    <span>Visited</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #dc3545;"></div>
+                    <span>Start Node</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let nodes = [];
+        let edges = [];
+        let isAnimating = false;
+        let visitedNodes = new Set();
+        let currentNode = null;
+        let startNode = 0;
+
+        class Node {
+            constructor(id, x, y) {
+                this.id = id;
+                this.x = x;
+                this.y = y;
+                this.radius = 25;
+                this.color = '#007bff';
+                this.visited = false;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Draw node ID
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.id, this.x, this.y);
+            }
+        }
+
+        function generateGraph() {
+            if (isAnimating) return;
+            
+            nodes = [];
+            edges = [];
+            visitedNodes.clear();
+            
+            // Create nodes in a circular pattern
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 120;
+            const nodeCount = 6;
+            
+            for (let i = 0; i < nodeCount; i++) {
+                const angle = (i * 2 * Math.PI) / nodeCount;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                nodes.push(new Node(i, x, y));
+            }
+            
+            // Create edges (adjacency list)
+            edges = [
+                [1, 2],      // 0 connects to 1, 2
+                [0, 3, 4],   // 1 connects to 0, 3, 4
+                [0, 4, 5],   // 2 connects to 0, 4, 5
+                [1, 4],      // 3 connects to 1, 4
+                [1, 2, 3, 5], // 4 connects to 1, 2, 3, 5
+                [2, 4]       // 5 connects to 2, 4
+            ];
+            
+            drawGraph();
+        }
+
+        function drawGraph() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw edges
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 2;
+            
+            for (let i = 0; i < edges.length; i++) {
+                for (let neighbor of edges[i]) {
+                    if (i < neighbor) { // Avoid drawing edges twice
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[neighbor].x, nodes[neighbor].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            // Draw nodes
+            nodes.forEach(node => node.draw());
+        }
+
+        function setAnimating(state) {
+            isAnimating = state;
+            document.getElementById('dfsBtn').disabled = state;
+            document.getElementById('bfsBtn').disabled = state;
+        }
+
+        function reset() {
+            if (isAnimating) return;
+            
+            visitedNodes.clear();
+            currentNode = null;
+            
+            nodes.forEach(node => {
+                node.visited = false;
+                node.color = '#007bff';
+            });
+            
+            nodes[startNode].color = '#dc3545'; // Start node
+            drawGraph();
+            
+            document.getElementById('algorithmInfo').textContent = 
+                'Graph reset! Click an algorithm to start traversal.';
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function visitNode(nodeId, algorithm) {
+            if (!isAnimating) return;
+            
+            // Highlight current node
+            if (currentNode !== null) {
+                nodes[currentNode].color = '#28a745'; // Mark previous as visited
+            }
+            
+            currentNode = nodeId;
+            nodes[nodeId].color = '#ffc107'; // Current node
+            visitedNodes.add(nodeId);
+            
+            drawGraph();
+            
+            document.getElementById('algorithmInfo').textContent = 
+                `${algorithm}: Visiting node ${nodeId}`;
+            
+            await sleep(800);
+        }
+
+        async function startDFS() {
+            if (isAnimating) return;
+            
+            setAnimating(true);
+            reset();
+            
+            document.getElementById('algorithmInfo').textContent = 
+                '🔍 DFS: Explores as far as possible along each branch before backtracking';
+            
+            await sleep(1000);
+            await dfs(startNode, new Set());
+            
+            // Mark final node as visited
+            if (currentNode !== null) {
+                nodes[currentNode].color = '#28a745';
+                drawGraph();
+            }
+            
+            setAnimating(false);
+            document.getElementById('algorithmInfo').textContent = 
+                '✅ DFS completed! Visited all reachable nodes depth-first.';
+        }
+
+        async function dfs(nodeId, visited) {
+            if (!isAnimating || visited.has(nodeId)) return;
+            
+            visited.add(nodeId);
+            await visitNode(nodeId, 'DFS');
+            
+            // Visit all unvisited neighbors
+            for (let neighbor of edges[nodeId]) {
+                if (!visited.has(neighbor)) {
+                    await dfs(neighbor, visited);
+                }
+            }
+        }
+
+        async function startBFS() {
+            if (isAnimating) return;
+            
+            setAnimating(true);
+            reset();
+            
+            document.getElementById('algorithmInfo').textContent = 
+                '📊 BFS: Explores all neighbors at current depth before moving to next depth';
+            
+            await sleep(1000);
+            await bfs(startNode);
+            
+            // Mark final node as visited
+            if (currentNode !== null) {
+                nodes[currentNode].color = '#28a745';
+                drawGraph();
+            }
+            
+            setAnimating(false);
+            document.getElementById('algorithmInfo').textContent = 
+                '✅ BFS completed! Visited all reachable nodes breadth-first.';
+        }
+
+        async function bfs(startNodeId) {
+            const queue = [startNodeId];
+            const visited = new Set();
+            
+            while (queue.length > 0 && isAnimating) {
+                const nodeId = queue.shift();
+                
+                if (visited.has(nodeId)) continue;
+                
+                visited.add(nodeId);
+                await visitNode(nodeId, 'BFS');
+                
+                // Add all unvisited neighbors to queue
+                for (let neighbor of edges[nodeId]) {
+                    if (!visited.has(neighbor) && !queue.includes(neighbor)) {
+                        queue.push(neighbor);
+                    }
+                }
+            }
+        }
+
+        // Initialize
+        generateGraph();
+        reset();
+    </script>
+</body>
+</html>

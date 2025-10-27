@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Palindrome</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; font-size: 16px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Palindrome Checker</h1>
+    <canvas id="canvas" width="800" height="300"></canvas>
+    <div class="controls">
+        <input type="text" id="text" value="racecar" placeholder="Enter text">
+        <button onclick="check()">Check</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        async function check() {
+            const text = document.getElementById('text').value.toLowerCase().replace(/[^a-z0-9]/g, '');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            let l = 0, r = text.length - 1;
+            let isPalindrome = true;
+            
+            while (l < r) {
+                draw(text, l, r, null);
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                if (text[l] !== text[r]) {
+                    isPalindrome = false;
+                    draw(text, l, r, false);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    break;
+                }
+                l++;
+                r--;
+            }
+            
+            if (isPalindrome) {
+                draw(text, -1, -1, true);
+            }
+        }
+
+        function draw(text, l, r, result) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const w = 40;
+            const startX = (canvas.width - text.length * w) / 2;
+            
+            for (let i = 0; i < text.length; i++) {
+                if (i === l || i === r) {
+                    ctx.fillStyle = result === false ? '#dc3545' : '#ffc107';
+                } else if (result === true) {
+                    ctx.fillStyle = '#28a745';
+                } else {
+                    ctx.fillStyle = '#007bff';
+                }
+                ctx.fillRect(startX + i * w, 120, w - 2, 50);
+                ctx.strokeRect(startX + i * w, 120, w - 2, 50);
+                ctx.fillStyle = '#fff';
+                ctx.font = '20px Arial';
+                ctx.fillText(text[i], startX + i * w + 12, 150);
+            }
+            
+            if (result !== null) {
+                ctx.fillStyle = '#000';
+                ctx.font = '24px Arial';
+                ctx.fillText(result ? 'PALINDROME!' : 'NOT A PALINDROME', canvas.width / 2 - 100, 220);
+            }
+        }
+
+        check();
+    </script>
+</body>
+</html>

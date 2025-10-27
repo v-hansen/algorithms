@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Euclidean Algorithm</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; font-size: 16px; margin: 5px; width: 100px; }
+        .info { text-align: center; margin: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Euclidean Algorithm (GCD)</h1>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="controls">
+        <input type="number" id="a" value="48" placeholder="Number A">
+        <input type="number" id="b" value="18" placeholder="Number B">
+        <button onclick="compute()">Compute GCD</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <div class="info" id="info">GCD: ?</div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let steps = [];
+
+        async function compute() {
+            let a = parseInt(document.getElementById('a').value);
+            let b = parseInt(document.getElementById('b').value);
+            steps = [{a, b, r: a % b}];
+            
+            while (b !== 0) {
+                const temp = b;
+                b = a % b;
+                a = temp;
+                if (b !== 0) steps.push({a, b, r: a % b});
+                draw(steps.length - 1);
+                await new Promise(resolve => setTimeout(resolve, 800));
+            }
+            
+            document.getElementById('info').textContent = `GCD: ${a}`;
+        }
+
+        function draw(current) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const startY = 50;
+            const lineHeight = 40;
+            
+            ctx.font = '16px Arial';
+            ctx.fillStyle = '#000';
+            ctx.fillText('Step | A | B | A mod B', 50, startY);
+            
+            steps.forEach((step, i) => {
+                const y = startY + (i + 1) * lineHeight;
+                ctx.fillStyle = i === current ? '#28a745' : '#000';
+                ctx.fillText(`${i + 1}`, 60, y);
+                ctx.fillText(step.a, 120, y);
+                ctx.fillText(step.b, 180, y);
+                ctx.fillText(step.r, 280, y);
+            });
+        }
+
+        compute();
+    </script>
+</body>
+</html>

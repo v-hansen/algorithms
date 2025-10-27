@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fibonacci</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; font-size: 16px; margin: 5px; width: 100px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Fibonacci Sequence</h1>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="controls">
+        <input type="number" id="n" value="15" min="1" max="20">
+        <button onclick="generate()">Generate</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        async function generate() {
+            const n = parseInt(document.getElementById('n').value);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let fib = [0, 1];
+            
+            for (let i = 2; i < n; i++) {
+                fib.push(fib[i-1] + fib[i-2]);
+                draw(fib);
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+        }
+
+        function draw(fib) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const w = canvas.width / fib.length;
+            const max = Math.max(...fib);
+            
+            fib.forEach((v, i) => {
+                const h = (v / max) * 300;
+                ctx.fillStyle = '#007bff';
+                ctx.fillRect(i * w, canvas.height - h, w - 2, h);
+                ctx.fillStyle = '#000';
+                ctx.fillText(v, i * w + w/2 - 10, canvas.height - h - 5);
+            });
+        }
+
+        generate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Binary Search Tree</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; font-size: 16px; margin: 5px; width: 100px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Binary Search Tree</h1>
+    <canvas id="canvas" width="800" height="450"></canvas>
+    <div class="controls">
+        <input type="number" id="val" placeholder="Value">
+        <button onclick="insert()">Insert</button>
+        <button onclick="clear()">Clear</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let root = null;
+
+        class Node {
+            constructor(v) { this.v = v; this.l = null; this.r = null; }
+        }
+
+        function insertNode(n, v) {
+            if (!n) return new Node(v);
+            if (v < n.v) n.l = insertNode(n.l, v);
+            else if (v > n.v) n.r = insertNode(n.r, v);
+            return n;
+        }
+
+        function drawTree(n, x, y, off) {
+            if (!n) return;
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, 2 * Math.PI);
+            ctx.fillStyle = '#007bff';
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.fillText(n.v, x - 8, y + 5);
+            if (n.l) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x - off, y + 60);
+                ctx.stroke();
+                drawTree(n.l, x - off, y + 60, off / 2);
+            }
+            if (n.r) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + off, y + 60);
+                ctx.stroke();
+                drawTree(n.r, x + off, y + 60, off / 2);
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (root) drawTree(root, canvas.width / 2, 50, 150);
+        }
+
+        function insert() {
+            const v = parseInt(document.getElementById('val').value);
+            if (!isNaN(v)) { root = insertNode(root, v); draw(); document.getElementById('val').value = ''; }
+        }
+
+        function clear() { root = null; draw(); }
+
+        draw();
+    </script>
+</body>
+</html>

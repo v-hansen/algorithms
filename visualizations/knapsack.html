@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knapsack Problem</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .info { text-align: center; margin: 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">0/1 Knapsack Problem</h1>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="controls">
+        <button onclick="solve()">Solve</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <div class="info" id="info">Capacity: 50 | Max Value: ?</div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const items = [
+            {w: 10, v: 60}, {w: 20, v: 100}, {w: 30, v: 120}
+        ];
+        const capacity = 50;
+
+        function draw(selected = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const w = 100, h = 80, spacing = 50;
+            
+            items.forEach((item, i) => {
+                const x = 100 + i * (w + spacing);
+                const y = 150;
+                ctx.fillStyle = selected.includes(i) ? '#28a745' : '#007bff';
+                ctx.fillRect(x, y, w, h);
+                ctx.strokeRect(x, y, w, h);
+                ctx.fillStyle = '#fff';
+                ctx.font = '14px Arial';
+                ctx.fillText(`W: ${item.w}`, x + 10, y + 30);
+                ctx.fillText(`V: ${item.v}`, x + 10, y + 50);
+            });
+        }
+
+        async function solve() {
+            const n = items.length;
+            const dp = Array(n + 1).fill(0).map(() => Array(capacity + 1).fill(0));
+            
+            for (let i = 1; i <= n; i++) {
+                for (let w = 0; w <= capacity; w++) {
+                    if (items[i-1].w <= w) {
+                        dp[i][w] = Math.max(dp[i-1][w], dp[i-1][w - items[i-1].w] + items[i-1].v);
+                    } else {
+                        dp[i][w] = dp[i-1][w];
+                    }
+                }
+            }
+            
+            let selected = [];
+            let w = capacity;
+            for (let i = n; i > 0 && w > 0; i--) {
+                if (dp[i][w] !== dp[i-1][w]) {
+                    selected.push(i-1);
+                    w -= items[i-1].w;
+                }
+            }
+            
+            draw(selected);
+            document.getElementById('info').textContent = `Capacity: ${capacity} | Max Value: ${dp[n][capacity]}`;
+        }
+
+        draw();
+    </script>
+</body>
+</html>

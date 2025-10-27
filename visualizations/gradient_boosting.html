@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gradient Boosting</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Gradient Boosting (Sequential Learning)</h1>
+    <canvas id="canvas" width="800" height="450"></canvas>
+    <div class="controls">
+        <button onclick="animate()">Animate</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawModel(x, y, label, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, 120, 60);
+            ctx.strokeRect(x, y, 120, 60);
+            ctx.fillStyle = '#fff';
+            ctx.font = '14px Arial';
+            ctx.fillText(label, x + 20, y + 35);
+        }
+
+        function draw(stage = 0) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545'];
+            const labels = ['Model 1', 'Model 2', 'Model 3', 'Model 4'];
+            
+            for (let i = 0; i < 4; i++) {
+                const alpha = i < stage ? 1 : 0.3;
+                ctx.globalAlpha = alpha;
+                drawModel(50 + i * 180, 150, labels[i], colors[i]);
+                
+                if (i < 3 && i < stage - 1) {
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(170 + i * 180, 180);
+                    ctx.lineTo(230 + i * 180, 180);
+                    ctx.stroke();
+                    ctx.fillStyle = '#000';
+                    ctx.fillText('+', 195 + i * 180, 185);
+                }
+            }
+            
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.fillText('Each model learns from previous errors', 250, 100);
+            ctx.fillText(`Stage: ${stage}/4`, 350, 280);
+            ctx.lineWidth = 1;
+        }
+
+        async function animate() {
+            for (let i = 0; i <= 4; i++) {
+                draw(i);
+                await new Promise(resolve => setTimeout(resolve, 800));
+            }
+        }
+
+        draw(0);
+    </script>
+</body>
+</html>

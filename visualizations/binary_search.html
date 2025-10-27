@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 { text-align: center; color: #333; }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        input[type="number"] {
+            padding: 8px;
+            margin: 5px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            width: 80px;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; }
+        
+        .array-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 5px;
+        }
+        
+        .array-element {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .left-half { background: #ffebee !important; border-color: #f44336; }
+        .right-half { background: #e8f5e8 !important; border-color: #4caf50; }
+        .middle { background: #fff3e0 !important; border-color: #ff9800; }
+        .target { background: #e3f2fd !important; border-color: #2196f3; }
+        .found { background: #c8e6c9 !important; border-color: #4caf50; animation: pulse 0.5s; }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .steps {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        
+        .step {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Binary Search Visualization</h1>
+        
+        <div class="controls">
+            <button onclick="generateArray()">🔄 New Array</button>
+            <input type="number" id="targetInput" placeholder="Target" min="1" max="100">
+            <button onclick="startSearch()" id="searchBtn">🎯 Search</button>
+            <button onclick="reset()" id="resetBtn">⏹️ Reset</button>
+        </div>
+        
+        <div class="array-container" id="arrayContainer"></div>
+        
+        <div class="info">
+            <div id="algorithmInfo">Enter a target number and click Search to see Binary Search in action!</div>
+        </div>
+        
+        <div class="steps" id="steps">
+            <strong>Search Steps:</strong>
+            <div>Steps will appear here during the search...</div>
+        </div>
+    </div>
+
+    <script>
+        let array = [];
+        let isAnimating = false;
+        let stepCount = 0;
+
+        function generateArray() {
+            if (isAnimating) return;
+            
+            array = [];
+            // Generate sorted array
+            for (let i = 0; i < 15; i++) {
+                array.push(Math.floor(Math.random() * 90) + 10);
+            }
+            array.sort((a, b) => a - b);
+            
+            renderArray();
+            reset();
+        }
+
+        function renderArray() {
+            const container = document.getElementById('arrayContainer');
+            container.innerHTML = '';
+            
+            array.forEach((value, index) => {
+                const element = document.createElement('div');
+                element.className = 'array-element';
+                element.textContent = value;
+                element.id = `element-${index}`;
+                container.appendChild(element);
+            });
+        }
+
+        function reset() {
+            if (isAnimating) return;
+            
+            document.querySelectorAll('.array-element').forEach(el => {
+                el.className = 'array-element';
+            });
+            
+            document.getElementById('steps').innerHTML = 
+                '<strong>Search Steps:</strong><div>Steps will appear here during the search...</div>';
+            
+            document.getElementById('algorithmInfo').textContent = 
+                'Enter a target number and click Search to see Binary Search in action!';
+            
+            stepCount = 0;
+        }
+
+        function addStep(message) {
+            const stepsContainer = document.getElementById('steps');
+            const step = document.createElement('div');
+            step.className = 'step';
+            step.textContent = `Step ${++stepCount}: ${message}`;
+            stepsContainer.appendChild(step);
+            stepsContainer.scrollTop = stepsContainer.scrollHeight;
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function highlightRange(left, right, middle, target) {
+            // Reset all elements
+            document.querySelectorAll('.array-element').forEach(el => {
+                el.className = 'array-element';
+            });
+            
+            // Highlight ranges
+            for (let i = 0; i < left; i++) {
+                document.getElementById(`element-${i}`).classList.add('left-half');
+            }
+            
+            for (let i = right + 1; i < array.length; i++) {
+                document.getElementById(`element-${i}`).classList.add('right-half');
+            }
+            
+            if (middle >= 0) {
+                document.getElementById(`element-${middle}`).classList.add('middle');
+            }
+            
+            await sleep(1000);
+        }
+
+        async function startSearch() {
+            const target = parseInt(document.getElementById('targetInput').value);
+            
+            if (isNaN(target)) {
+                alert('Please enter a valid target number');
+                return;
+            }
+            
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            document.getElementById('searchBtn').disabled = true;
+            reset();
+            
+            document.getElementById('algorithmInfo').textContent = 
+                `🔍 Binary Search: Looking for ${target} in sorted array`;
+            
+            addStep(`Starting search for ${target}`);
+            
+            let left = 0;
+            let right = array.length - 1;
+            let found = false;
+            
+            while (left <= right && isAnimating) {
+                const middle = Math.floor((left + right) / 2);
+                const middleValue = array[middle];
+                
+                await highlightRange(left, right, middle, target);
+                
+                addStep(`Checking middle element at index ${middle}: ${middleValue}`);
+                
+                if (middleValue === target) {
+                    document.getElementById(`element-${middle}`).classList.remove('middle');
+                    document.getElementById(`element-${middle}`).classList.add('found');
+                    addStep(`🎉 Found ${target} at index ${middle}!`);
+                    found = true;
+                    break;
+                } else if (middleValue < target) {
+                    addStep(`${middleValue} < ${target}, search right half`);
+                    left = middle + 1;
+                } else {
+                    addStep(`${middleValue} > ${target}, search left half`);
+                    right = middle - 1;
+                }
+                
+                await sleep(800);
+            }
+            
+            if (!found && isAnimating) {
+                addStep(`❌ ${target} not found in array`);
+            }
+            
+            isAnimating = false;
+            document.getElementById('searchBtn').disabled = false;
+            
+            document.getElementById('algorithmInfo').textContent = 
+                found ? `✅ Binary Search completed! Found ${target} in ${stepCount} steps.` :
+                       `❌ Binary Search completed! ${target} not found in ${stepCount} steps.`;
+        }
+
+        // Initialize
+        generateArray();
+    </script>
+</body>
+</html>

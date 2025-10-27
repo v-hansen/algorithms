@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sieve of Eratosthenes</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; font-size: 16px; margin: 5px; width: 100px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Sieve of Eratosthenes</h1>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="controls">
+        <input type="number" id="n" value="50" min="10" max="100">
+        <button onclick="sieve()">Find Primes</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        async function sieve() {
+            const n = parseInt(document.getElementById('n').value);
+            const isPrime = Array(n + 1).fill(true);
+            isPrime[0] = isPrime[1] = false;
+            
+            for (let p = 2; p * p <= n; p++) {
+                if (isPrime[p]) {
+                    for (let i = p * p; i <= n; i += p) {
+                        isPrime[i] = false;
+                        draw(isPrime, n, i);
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                    }
+                }
+            }
+            draw(isPrime, n, -1);
+        }
+
+        function draw(isPrime, n, current) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cols = 10;
+            const cellSize = 35;
+            const startX = 150, startY = 30;
+            
+            for (let i = 2; i <= n; i++) {
+                const row = Math.floor((i - 2) / cols);
+                const col = (i - 2) % cols;
+                const x = startX + col * cellSize;
+                const y = startY + row * cellSize;
+                
+                if (i === current) {
+                    ctx.fillStyle = '#ffc107';
+                } else if (isPrime[i]) {
+                    ctx.fillStyle = '#28a745';
+                } else {
+                    ctx.fillStyle = '#dc3545';
+                }
+                
+                ctx.fillRect(x, y, cellSize - 2, cellSize - 2);
+                ctx.strokeRect(x, y, cellSize - 2, cellSize - 2);
+                ctx.fillStyle = '#fff';
+                ctx.font = '12px Arial';
+                ctx.fillText(i, x + 10, y + 20);
+            }
+        }
+
+        sieve();
+    </script>
+</body>
+</html>

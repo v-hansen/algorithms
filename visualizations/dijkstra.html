@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra's Algorithm Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 { text-align: center; color: #333; }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+        }
+        
+        #canvas {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .sidebar {
+            min-width: 250px;
+        }
+        
+        .distance-table {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .distance-table h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .distance-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .distance-row:last-child {
+            border-bottom: none;
+        }
+        
+        .current-node {
+            background: #fff3cd;
+            font-weight: bold;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛣️ Dijkstra's Shortest Path Algorithm</h1>
+        
+        <div class="controls">
+            <button onclick="generateGraph()">🔄 New Graph</button>
+            <button onclick="startDijkstra()" id="dijkstraBtn">🎯 Find Shortest Paths</button>
+            <button onclick="reset()" id="resetBtn">⏹️ Reset</button>
+        </div>
+        
+        <div class="main-content">
+            <canvas id="canvas" width="700" height="500"></canvas>
+            
+            <div class="sidebar">
+                <div class="info">
+                    <div id="algorithmInfo">Click "Find Shortest Paths" to see Dijkstra's algorithm find the shortest path from node 0 to all other nodes!</div>
+                </div>
+                
+                <div class="distance-table">
+                    <h3>📏 Distances from Start</h3>
+                    <div id="distanceTable"></div>
+                </div>
+                
+                <div class="legend">
+                    <h3>🎨 Legend</h3>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #dc3545;"></div>
+                        <span>Start Node</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ffc107;"></div>
+                        <span>Current Node</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #28a745;"></div>
+                        <span>Visited</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #007bff;"></div>
+                        <span>Unvisited</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let nodes = [];
+        let edges = [];
+        let distances = [];
+        let visited = [];
+        let isAnimating = false;
+        let currentNode = -1;
+
+        class Node {
+            constructor(id, x, y) {
+                this.id = id;
+                this.x = x;
+                this.y = y;
+                this.radius = 25;
+                this.color = '#007bff';
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Draw node ID
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.id, this.x, this.y);
+                
+                // Draw distance
+                if (distances[this.id] !== Infinity) {
+                    ctx.fillStyle = '#333';
+                    ctx.font = '12px Arial';
+                    ctx.fillText(distances[this.id], this.x, this.y - 35);
+                }
+            }
+        }
+
+        function generateGraph() {
+            if (isAnimating) return;
+            
+            nodes = [];
+            edges = [];
+            
+            // Create nodes
+            const positions = [
+                {x: 100, y: 100}, {x: 300, y: 80}, {x: 500, y: 120},
+                {x: 150, y: 250}, {x: 350, y: 200}, {x: 550, y: 280},
+                {x: 200, y: 400}, {x: 450, y: 380}
+            ];
+            
+            for (let i = 0; i < 6; i++) {
+                nodes.push(new Node(i, positions[i].x, positions[i].y));
+            }
+            
+            // Create weighted edges
+            edges = [
+                {from: 0, to: 1, weight: 4},
+                {from: 0, to: 2, weight: 2},
+                {from: 1, to: 2, weight: 1},
+                {from: 1, to: 3, weight: 5},
+                {from: 2, to: 3, weight: 8},
+                {from: 2, to: 4, weight: 10},
+                {from: 3, to: 4, weight: 2},
+                {from: 3, to: 5, weight: 6},
+                {from: 4, to: 5, weight: 3}
+            ];
+            
+            reset();
+        }
+
+        function drawGraph() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw edges
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 2;
+            
+            edges.forEach(edge => {
+                const fromNode = nodes[edge.from];
+                const toNode = nodes[edge.to];
+                
+                ctx.beginPath();
+                ctx.moveTo(fromNode.x, fromNode.y);
+                ctx.lineTo(toNode.x, toNode.y);
+                ctx.stroke();
+                
+                // Draw weight
+                const midX = (fromNode.x + toNode.x) / 2;
+                const midY = (fromNode.y + toNode.y) / 2;
+                
+                ctx.fillStyle = 'white';
+                ctx.fillRect(midX - 10, midY - 8, 20, 16);
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(edge.weight, midX, midY);
+            });
+            
+            // Draw nodes
+            nodes.forEach(node => node.draw());
+        }
+
+        function updateDistanceTable() {
+            const table = document.getElementById('distanceTable');
+            table.innerHTML = '';
+            
+            for (let i = 0; i < nodes.length; i++) {
+                const row = document.createElement('div');
+                row.className = 'distance-row';
+                if (i === currentNode) row.classList.add('current-node');
+                
+                const nodeLabel = document.createElement('span');
+                nodeLabel.textContent = `Node ${i}`;
+                
+                const distance = document.createElement('span');
+                distance.textContent = distances[i] === Infinity ? '∞' : distances[i];
+                
+                row.appendChild(nodeLabel);
+                row.appendChild(distance);
+                table.appendChild(row);
+            }
+        }
+
+        function reset() {
+            if (isAnimating) return;
+            
+            distances = new Array(nodes.length).fill(Infinity);
+            visited = new Array(nodes.length).fill(false);
+            currentNode = -1;
+            
+            nodes.forEach((node, i) => {
+                node.color = i === 0 ? '#dc3545' : '#007bff';
+            });
+            
+            distances[0] = 0; // Start node distance is 0
+            
+            drawGraph();
+            updateDistanceTable();
+            
+            document.getElementById('algorithmInfo').textContent = 
+                'Ready to find shortest paths from node 0 to all other nodes!';
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function startDijkstra() {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            document.getElementById('dijkstraBtn').disabled = true;
+            
+            document.getElementById('algorithmInfo').textContent = 
+                '🛣️ Dijkstra: Finding shortest paths from node 0...';
+            
+            const unvisited = new Set();
+            for (let i = 0; i < nodes.length; i++) {
+                unvisited.add(i);
+            }
+            
+            while (unvisited.size > 0 && isAnimating) {
+                // Find unvisited node with minimum distance
+                let minDistance = Infinity;
+                let minNode = -1;
+                
+                for (let node of unvisited) {
+                    if (distances[node] < minDistance) {
+                        minDistance = distances[node];
+                        minNode = node;
+                    }
+                }
+                
+                if (minNode === -1 || minDistance === Infinity) break;
+                
+                currentNode = minNode;
+                nodes[currentNode].color = '#ffc107'; // Current node
+                
+                drawGraph();
+                updateDistanceTable();
+                
+                document.getElementById('algorithmInfo').textContent = 
+                    `Processing node ${currentNode} (distance: ${distances[currentNode]})`;
+                
+                await sleep(1500);
+                
+                // Update distances to neighbors
+                edges.forEach(edge => {
+                    let neighbor = -1;
+                    if (edge.from === currentNode) neighbor = edge.to;
+                    else if (edge.to === currentNode) neighbor = edge.from;
+                    
+                    if (neighbor !== -1 && unvisited.has(neighbor)) {
+                        const newDistance = distances[currentNode] + edge.weight;
+                        if (newDistance < distances[neighbor]) {
+                            distances[neighbor] = newDistance;
+                        }
+                    }
+                });
+                
+                // Mark as visited
+                unvisited.delete(currentNode);
+                visited[currentNode] = true;
+                nodes[currentNode].color = '#28a745'; // Visited
+                
+                drawGraph();
+                updateDistanceTable();
+                
+                await sleep(1000);
+            }
+            
+            currentNode = -1;
+            updateDistanceTable();
+            
+            isAnimating = false;
+            document.getElementById('dijkstraBtn').disabled = false;
+            
+            document.getElementById('algorithmInfo').textContent = 
+                '✅ Dijkstra completed! Shortest paths from node 0 found.';
+        }
+
+        // Initialize
+        generateGraph();
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyglot Algorithms - 31 Algorithms in 13 Languages</title>
+    <meta name="description" content="A comprehensive collection of 31 fundamental algorithms implemented in 13 programming languages with interactive visualizations. Perfect for learning, interviews, and production use.">
+    <meta name="keywords" content="algorithms, data structures, programming, python, javascript, java, c++, rust, go, visualizations, learning">
+    <meta name="author" content="Vitor Hansen">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/v-hansen/polyglot-algorithms">
+    <meta property="og:title" content="Polyglot Algorithms - 31 Algorithms in 13 Languages">
+    <meta property="og:description" content="A comprehensive collection of 31 fundamental algorithms implemented in 13 programming languages with interactive visualizations.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://github.com/v-hansen/polyglot-algorithms">
+    <meta property="twitter:title" content="Polyglot Algorithms - 31 Algorithms in 13 Languages">
+    <meta property="twitter:description" content="A comprehensive collection of 31 fundamental algorithms implemented in 13 programming languages with interactive visualizations.">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255,255,255,0.2);
+            padding: 20px 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .content {
+            background: white;
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .feature {
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        .languages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .lang-tag {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .cta-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .cta-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        .cta-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        .cta-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: white;
+        }
+        .cta-card p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .category-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        .category-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 40px;
+        }
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Multi-Language Algorithm Library</h1>
+            <p>A comprehensive collection of fundamental algorithms implemented across multiple programming languages</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">31</span>
+                    <span class="stat-label">Algorithms</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">13</span>
+                    <span class="stat-label">Languages</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">403</span>
+                    <span class="stat-label">Implementations</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <h2>📚 About This Project</h2>
+            <p>This repository serves as both a <strong>learning resource</strong> and a <strong>practical reference</strong> for algorithm implementations across different programming paradigms. Every algorithm is implemented in 13 languages with consistent structure, production-ready code, and educational documentation.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3>🎯 100% Consistent</h3>
+                    <p>Same structure and naming conventions across all languages</p>
+                </div>
+                <div class="feature">
+                    <h3>📖 Well Documented</h3>
+                    <p>Clear comments and complexity analysis for each implementation</p>
+                </div>
+                <div class="feature">
+                    <h3>🎨 Interactive Visualizations</h3>
+                    <p>31 animated visualizations to understand algorithms visually</p>
+                </div>
+                <div class="feature">
+                    <h3>⚡ Production Ready</h3>
+                    <p>Clean, tested code ready for real-world use</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>💻 Supported Languages</h2>
+            <div class="languages">
+                <span class="lang-tag">C</span>
+                <span class="lang-tag">C++</span>
+                <span class="lang-tag">C#</span>
+                <span class="lang-tag">Clojure</span>
+                <span class="lang-tag">Go</span>
+                <span class="lang-tag">Java</span>
+                <span class="lang-tag">JavaScript</span>
+                <span class="lang-tag">Kotlin</span>
+                <span class="lang-tag">PHP</span>
+                <span class="lang-tag">Python</span>
+                <span class="lang-tag">Ruby</span>
+                <span class="lang-tag">Rust</span>
+                <span class="lang-tag">TypeScript</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>🗂️ Algorithm Categories</h2>
+            <div class="categories">
+                <div class="category-item">
+                    <strong>Search & Basic (3)</strong>
+                    <span>Binary Search, Linear Search, Two Pointers</span>
+                </div>
+                <div class="category-item">
+                    <strong>Sorting (4)</strong>
+                    <span>Bubble, Merge, Quick, Heap Sort</span>
+                </div>
+                <div class="category-item">
+                    <strong>Graph (4)</strong>
+                    <span>DFS, BFS, Dijkstra, Topological Sort</span>
+                </div>
+                <div class="category-item">
+                    <strong>Data Structures (4)</strong>
+                    <span>Hash Table, BST, Linked List, Trie</span>
+                </div>
+                <div class="category-item">
+                    <strong>Dynamic Programming (5)</strong>
+                    <span>Knapsack, Edit Distance, LCS, Coin Change</span>
+                </div>
+                <div class="category-item">
+                    <strong>String (2)</strong>
+                    <span>KMP Algorithm, Palindrome</span>
+                </div>
+                <div class="category-item">
+                    <strong>Mathematical (4)</strong>
+                    <span>Fibonacci, GCD, Sieve, Matrix Mult</span>
+                </div>
+                <div class="category-item">
+                    <strong>Machine Learning (8)</strong>
+                    <span>Regression, Trees, SVM, K-Means, KNN, Boosting</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <a href="visualizations/index.html" class="cta-card">
+                <h3>🎨 Interactive Visualizations</h3>
+                <p>Explore 31 animated algorithm visualizations with step-by-step execution</p>
+            </a>
+            <a href="README.md" class="cta-card">
+                <h3>📖 Full Documentation</h3>
+                <p>Complete guide with complexity analysis, use cases, and examples</p>
+            </a>
+        </div>
+
+        <div class="content">
+            <h2>🚀 Quick Start</h2>
+            <p>Clone the repository and run any algorithm in your preferred language:</p>
+            <pre style="background: #f4f4f4; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0;">
+<code>git clone https://github.com/yourusername/multi-language-algorithms.git
+cd multi-language-algorithms
+
+# Python
+cd binary-search && python binary_search.py
+
+# JavaScript
+cd merge-sort && node merge_sort.js
+
+# Java
+cd quick-sort && javac QuickSort.java && java QuickSort
+
+# C++
+cd dijkstra-algorithm && g++ dijkstra_algorithm.cpp -o dijkstra && ./dijkstra</code></pre>
+        </div>
+
+        <div class="content">
+            <h2>🎯 Use Cases</h2>
+            <div class="features">
+                <div class="feature">
+                    <h3>📚 Learning</h3>
+                    <p>Study algorithms across different paradigms and compare implementations</p>
+                </div>
+                <div class="feature">
+                    <h3>💼 Interview Prep</h3>
+                    <p>Practice common interview questions with multiple language solutions</p>
+                </div>
+                <div class="feature">
+                    <h3>🔧 Production Use</h3>
+                    <p>Copy and adapt production-ready implementations for your projects</p>
+                </div>
+                <div class="feature">
+                    <h3>👨‍🏫 Teaching</h3>
+                    <p>Use visualizations and code examples to teach algorithms effectively</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Multi-Language Algorithm Library</strong> | MIT License</p>
+            <p>Built with ❤️ for developers, students, and educators</p>
+        </footer>
+    </div>
+</body>
+</html>

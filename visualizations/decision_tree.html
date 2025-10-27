@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Decision Tree</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Decision Tree</h1>
+    <canvas id="canvas" width="800" height="450"></canvas>
+    <div class="controls">
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawNode(x, y, text, isLeaf = false) {
+            ctx.beginPath();
+            if (isLeaf) {
+                ctx.rect(x - 40, y - 20, 80, 40);
+                ctx.fillStyle = '#28a745';
+            } else {
+                ctx.arc(x, y, 40, 0, 2 * Math.PI);
+                ctx.fillStyle = '#007bff';
+            }
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.font = '12px Arial';
+            ctx.fillText(text, x - 30, y + 5);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.strokeStyle = '#000';
+            ctx.beginPath();
+            ctx.moveTo(400, 80);
+            ctx.lineTo(250, 180);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(400, 80);
+            ctx.lineTo(550, 180);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(250, 180);
+            ctx.lineTo(150, 280);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(250, 180);
+            ctx.lineTo(350, 280);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(550, 180);
+            ctx.lineTo(450, 280);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(550, 180);
+            ctx.lineTo(650, 280);
+            ctx.stroke();
+            
+            drawNode(400, 80, 'Age > 30?');
+            drawNode(250, 180, 'Income > 50k?');
+            drawNode(550, 180, 'Credit > 700?');
+            drawNode(150, 280, 'Class: NO', true);
+            drawNode(350, 280, 'Class: YES', true);
+            drawNode(450, 280, 'Class: YES', true);
+            drawNode(650, 280, 'Class: NO', true);
+            
+            ctx.fillStyle = '#000';
+            ctx.font = '12px Arial';
+            ctx.fillText('No', 310, 130);
+            ctx.fillText('Yes', 470, 130);
+            ctx.fillText('No', 190, 230);
+            ctx.fillText('Yes', 310, 230);
+            ctx.fillText('No', 490, 230);
+            ctx.fillText('Yes', 610, 230);
+        }
+
+        draw();
+    </script>
+</body>
+</html>

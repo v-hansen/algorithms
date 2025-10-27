@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hash Table</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; font-size: 16px; margin: 5px; width: 100px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Hash Table</h1>
+    <canvas id="canvas" width="800" height="450"></canvas>
+    <div class="controls">
+        <input type="text" id="key" placeholder="Key">
+        <input type="text" id="val" placeholder="Value">
+        <button onclick="insert()">Insert</button>
+        <button onclick="clear()">Clear</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const SIZE = 10;
+        let table = Array(SIZE).fill(null).map(() => []);
+
+        function hash(k) {
+            let h = 0;
+            for (let i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) % SIZE;
+            return h;
+        }
+
+        function draw(hi = -1) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const sh = 40;
+            for (let i = 0; i < SIZE; i++) {
+                const y = 30 + i * sh;
+                ctx.fillStyle = i === hi ? '#ffc107' : '#e9ecef';
+                ctx.fillRect(50, y, 80, 35);
+                ctx.strokeRect(50, y, 80, 35);
+                ctx.fillStyle = '#000';
+                ctx.fillText(`[${i}]`, 70, y + 22);
+                table[i].forEach((item, j) => {
+                    ctx.fillStyle = '#007bff';
+                    ctx.fillRect(150 + j * 110, y, 100, 35);
+                    ctx.strokeRect(150 + j * 110, y, 100, 35);
+                    ctx.fillStyle = '#fff';
+                    ctx.fillText(`${item.k}:${item.v}`, 155 + j * 110, y + 22);
+                });
+            }
+        }
+
+        async function insert() {
+            const k = document.getElementById('key').value;
+            const v = document.getElementById('val').value;
+            if (!k || !v) return;
+            const idx = hash(k);
+            table[idx].push({k, v});
+            draw(idx);
+            await new Promise(resolve => setTimeout(resolve, 500));
+            draw();
+            document.getElementById('key').value = '';
+            document.getElementById('val').value = '';
+        }
+
+        function clear() { table = Array(SIZE).fill(null).map(() => []); draw(); }
+
+        draw();
+    </script>
+</body>
+</html>

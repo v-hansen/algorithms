@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trie</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 8px; font-size: 16px; margin: 5px; width: 150px; }
+        .words { text-align: center; margin: 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Trie (Prefix Tree)</h1>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div class="controls">
+        <input type="text" id="word" placeholder="Word">
+        <button onclick="insert()">Insert</button>
+        <button onclick="search()">Search</button>
+        <button onclick="clear()">Clear</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <div class="words" id="words">Words: []</div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let words = [];
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#007bff';
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, 50, 20, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.fillText('root', canvas.width / 2 - 15, 55);
+            
+            words.forEach((w, i) => {
+                const x = 100 + i * 120;
+                const y = 150;
+                for (let j = 0; j < w.length; j++) {
+                    ctx.fillStyle = '#28a745';
+                    ctx.beginPath();
+                    ctx.arc(x, y + j * 50, 18, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.fillStyle = '#fff';
+                    ctx.fillText(w[j], x - 5, y + j * 50 + 5);
+                    if (j === 0) {
+                        ctx.strokeStyle = '#000';
+                        ctx.beginPath();
+                        ctx.moveTo(canvas.width / 2, 70);
+                        ctx.lineTo(x, y - 18);
+                        ctx.stroke();
+                    }
+                    if (j < w.length - 1) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, y + j * 50 + 18);
+                        ctx.lineTo(x, y + (j + 1) * 50 - 18);
+                        ctx.stroke();
+                    }
+                }
+            });
+        }
+
+        function insert() {
+            const w = document.getElementById('word').value.toLowerCase();
+            if (w && !words.includes(w)) {
+                words.push(w);
+                draw();
+                updateWords();
+            }
+            document.getElementById('word').value = '';
+        }
+
+        function search() {
+            const w = document.getElementById('word').value.toLowerCase();
+            alert(words.includes(w) ? 'Found!' : 'Not found');
+        }
+
+        function clear() { words = []; draw(); updateWords(); }
+
+        function updateWords() {
+            document.getElementById('words').textContent = `Words: [${words.join(', ')}]`;
+        }
+
+        draw();
+    </script>
+</body>
+</html>

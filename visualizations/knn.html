@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>K-Nearest Neighbors</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; cursor: crosshair; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .info { text-align: center; margin: 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">K-Nearest Neighbors (k=3)</h1>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <div class="controls">
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <div class="info">Click on canvas to classify a point</div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const k = 3;
+        const data = [
+            ...Array.from({length: 20}, () => ({x: Math.random() * 300 + 100, y: Math.random() * 200 + 100, label: 0})),
+            ...Array.from({length: 20}, () => ({x: Math.random() * 300 + 400, y: Math.random() * 200 + 250, label: 1}))
+        ];
+        const colors = ['#007bff', '#dc3545'];
+
+        function draw(testPoint = null, neighbors = []) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            data.forEach(p => {
+                ctx.fillStyle = colors[p.label];
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+            
+            if (testPoint) {
+                neighbors.forEach(n => {
+                    ctx.strokeStyle = '#ffc107';
+                    ctx.beginPath();
+                    ctx.moveTo(testPoint.x, testPoint.y);
+                    ctx.lineTo(n.x, n.y);
+                    ctx.stroke();
+                });
+                
+                ctx.fillStyle = colors[testPoint.label];
+                ctx.beginPath();
+                ctx.arc(testPoint.x, testPoint.y, 10, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.lineWidth = 1;
+            }
+        }
+
+        canvas.addEventListener('click', async (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const testPoint = {x: e.clientX - rect.left, y: e.clientY - rect.top};
+            
+            const distances = data.map(p => ({
+                ...p,
+                dist: Math.sqrt((p.x - testPoint.x) ** 2 + (p.y - testPoint.y) ** 2)
+            })).sort((a, b) => a.dist - b.dist);
+            
+            const neighbors = distances.slice(0, k);
+            const votes = neighbors.reduce((acc, n) => {
+                acc[n.label] = (acc[n.label] || 0) + 1;
+                return acc;
+            }, {});
+            
+            testPoint.label = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
+            draw(testPoint, neighbors);
+        });
+
+        draw();
+    </script>
+</body>
+</html>

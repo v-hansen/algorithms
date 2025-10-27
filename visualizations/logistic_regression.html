@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logistic Regression</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Logistic Regression</h1>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <div class="controls">
+        <button onclick="train()">Train</button>
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const data = [
+            ...Array.from({length: 20}, () => ({x: Math.random() * 300 + 50, y: Math.random() * 200 + 50, label: 0})),
+            ...Array.from({length: 20}, () => ({x: Math.random() * 300 + 350, y: Math.random() * 200 + 200, label: 1}))
+        ];
+        const colors = ['#007bff', '#dc3545'];
+
+        function sigmoid(x) {
+            return 1 / (1 + Math.exp(-x));
+        }
+
+        function draw(w = 0, b = 0) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (w !== 0 || b !== 0) {
+                for (let x = 0; x < canvas.width; x += 10) {
+                    for (let y = 0; y < canvas.height; y += 10) {
+                        const prob = sigmoid(w * x + b);
+                        const alpha = Math.abs(prob - 0.5) * 0.3;
+                        ctx.fillStyle = prob > 0.5 ? `rgba(220, 53, 69, ${alpha})` : `rgba(0, 123, 255, ${alpha})`;
+                        ctx.fillRect(x, y, 10, 10);
+                    }
+                }
+            }
+            
+            data.forEach(p => {
+                ctx.fillStyle = colors[p.label];
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 6, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        async function train() {
+            let w = 0.001, b = 0;
+            const lr = 0.00001;
+            
+            for (let epoch = 0; epoch < 100; epoch++) {
+                data.forEach(p => {
+                    const pred = sigmoid(w * p.x + b);
+                    const error = pred - p.label;
+                    w -= lr * error * p.x;
+                    b -= lr * error;
+                });
+                
+                if (epoch % 5 === 0) {
+                    draw(w, b);
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+            }
+        }
+
+        draw();
+    </script>
+</body>
+</html>

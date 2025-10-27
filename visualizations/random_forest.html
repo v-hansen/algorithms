@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Forest</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 50px auto; background: #f5f5f5; }
+        canvas { background: white; border: 2px solid #333; display: block; margin: 20px auto; }
+        .controls { text-align: center; margin: 20px 0; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Random Forest (Ensemble of Trees)</h1>
+    <canvas id="canvas" width="800" height="450"></canvas>
+    <div class="controls">
+        <button onclick="location.href='index.html'">Back</button>
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawTree(x, y, scale = 1) {
+            const s = scale;
+            ctx.strokeStyle = '#000';
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - 30 * s, y + 50 * s);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 30 * s, y + 50 * s);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#007bff';
+            ctx.beginPath();
+            ctx.arc(x, y, 15 * s, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            
+            ctx.fillStyle = '#28a745';
+            ctx.beginPath();
+            ctx.arc(x - 30 * s, y + 50 * s, 12 * s, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(x + 30 * s, y + 50 * s, 12 * s, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.fillText('Tree 1', 130, 30);
+            ctx.fillText('Tree 2', 350, 30);
+            ctx.fillText('Tree 3', 570, 30);
+            
+            drawTree(150, 60);
+            drawTree(370, 60);
+            drawTree(590, 60);
+            
+            ctx.strokeStyle = '#ffc107';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(150, 130);
+            ctx.lineTo(400, 250);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(370, 130);
+            ctx.lineTo(400, 250);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(590, 130);
+            ctx.lineTo(400, 250);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(400, 250, 30, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = '#fff';
+            ctx.font = '14px Arial';
+            ctx.fillText('Vote', 375, 255);
+            
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.fillText('Final Prediction', 320, 320);
+            
+            ctx.lineWidth = 1;
+        }
+
+        draw();
+    </script>
+</body>
+</html>

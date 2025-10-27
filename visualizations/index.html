@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualizations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            color: white;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .card h3 {
+            color: #667eea;
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+        }
+        .card p {
+            color: #666;
+            margin: 0;
+            font-size: 0.85em;
+        }
+        .category {
+            display: inline-block;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .cat-sort { background: #f093fb; }
+        .cat-search { background: #43e97b; }
+        .cat-graph { background: #4facfe; }
+        .cat-ds { background: #fa709a; }
+        .cat-dp { background: #feca57; }
+        .cat-string { background: #48dbfb; }
+        .cat-math { background: #ff6b6b; }
+        .cat-ml { background: #ee5a6f; }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Algorithm Visualizations</h1>
+    <p class="subtitle">Interactive animations of 31 fundamental algorithms</p>
+    
+    <div class="section">
+        <h2>🔍 Search & Basic Algorithms</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='binary_search.html'">
+                <span class="category cat-search">Search</span>
+                <h3>Binary Search</h3>
+                <p>O(log n) search in sorted arrays</p>
+            </div>
+            <div class="card" onclick="location.href='linear_search.html'">
+                <span class="category cat-search">Search</span>
+                <h3>Linear Search</h3>
+                <p>O(n) sequential search</p>
+            </div>
+            <div class="card" onclick="location.href='two_pointers.html'">
+                <span class="category cat-search">Search</span>
+                <h3>Two Pointers</h3>
+                <p>Pair sum finding technique</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔄 Sorting Algorithms</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='sorting_animation.html'">
+                <span class="category cat-sort">Sorting</span>
+                <h3>Bubble Sort</h3>
+                <p>O(n²) comparison-based sort</p>
+            </div>
+            <div class="card" onclick="location.href='sorting_animation.html'">
+                <span class="category cat-sort">Sorting</span>
+                <h3>Merge Sort</h3>
+                <p>O(n log n) divide-and-conquer</p>
+            </div>
+            <div class="card" onclick="location.href='sorting_animation.html'">
+                <span class="category cat-sort">Sorting</span>
+                <h3>Quick Sort</h3>
+                <p>O(n log n) avg partition-based</p>
+            </div>
+            <div class="card" onclick="location.href='heap_sort.html'">
+                <span class="category cat-sort">Sorting</span>
+                <h3>Heap Sort</h3>
+                <p>O(n log n) heap-based sort</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🌐 Graph Algorithms</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='graph_animation.html'">
+                <span class="category cat-graph">Graph</span>
+                <h3>DFS</h3>
+                <p>Depth-First Search traversal</p>
+            </div>
+            <div class="card" onclick="location.href='graph_animation.html'">
+                <span class="category cat-graph">Graph</span>
+                <h3>BFS</h3>
+                <p>Breadth-First Search traversal</p>
+            </div>
+            <div class="card" onclick="location.href='dijkstra_animation.html'">
+                <span class="category cat-graph">Graph</span>
+                <h3>Dijkstra</h3>
+                <p>Shortest path algorithm</p>
+            </div>
+            <div class="card" onclick="location.href='topological_sort.html'">
+                <span class="category cat-graph">Graph</span>
+                <h3>Topological Sort</h3>
+                <p>DAG ordering algorithm</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🏗️ Data Structures</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='hash_table.html'">
+                <span class="category cat-ds">Data Structure</span>
+                <h3>Hash Table</h3>
+                <p>O(1) key-value storage</p>
+            </div>
+            <div class="card" onclick="location.href='bst.html'">
+                <span class="category cat-ds">Data Structure</span>
+                <h3>Binary Search Tree</h3>
+                <p>O(log n) ordered tree</p>
+            </div>
+            <div class="card" onclick="location.href='linked_list.html'">
+                <span class="category cat-ds">Data Structure</span>
+                <h3>Linked List</h3>
+                <p>Dynamic linear structure</p>
+            </div>
+            <div class="card" onclick="location.href='trie.html'">
+                <span class="category cat-ds">Data Structure</span>
+                <h3>Trie</h3>
+                <p>Prefix tree for strings</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧮 Dynamic Programming</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='dynamic_programming.html'">
+                <span class="category cat-dp">DP</span>
+                <h3>DP - Memoization</h3>
+                <p>Fibonacci with caching</p>
+            </div>
+            <div class="card" onclick="location.href='knapsack.html'">
+                <span class="category cat-dp">DP</span>
+                <h3>Knapsack</h3>
+                <p>0/1 optimization problem</p>
+            </div>
+            <div class="card" onclick="location.href='edit_distance.html'">
+                <span class="category cat-dp">DP</span>
+                <h3>Edit Distance</h3>
+                <p>Levenshtein distance</p>
+            </div>
+            <div class="card" onclick="location.href='lcs.html'">
+                <span class="category cat-dp">DP</span>
+                <h3>LCS</h3>
+                <p>Longest Common Subsequence</p>
+            </div>
+            <div class="card" onclick="location.href='coin_change.html'">
+                <span class="category cat-dp">DP</span>
+                <h3>Coin Change</h3>
+                <p>Minimum coins problem</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔤 String Algorithms</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='kmp.html'">
+                <span class="category cat-string">String</span>
+                <h3>KMP Algorithm</h3>
+                <p>O(n+m) pattern matching</p>
+            </div>
+            <div class="card" onclick="location.href='palindrome.html'">
+                <span class="category cat-string">String</span>
+                <h3>Palindrome</h3>
+                <p>Two-pointer validation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📊 Mathematical Algorithms</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='fibonacci.html'">
+                <span class="category cat-math">Math</span>
+                <h3>Fibonacci</h3>
+                <p>Sequence generation</p>
+            </div>
+            <div class="card" onclick="location.href='euclidean.html'">
+                <span class="category cat-math">Math</span>
+                <h3>Euclidean GCD</h3>
+                <p>Greatest Common Divisor</p>
+            </div>
+            <div class="card" onclick="location.href='sieve.html'">
+                <span class="category cat-math">Math</span>
+                <h3>Sieve of Eratosthenes</h3>
+                <p>Prime number generation</p>
+            </div>
+            <div class="card" onclick="location.href='matrix_mult.html'">
+                <span class="category cat-math">Math</span>
+                <h3>Matrix Multiplication</h3>
+                <p>O(n³) matrix product</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🤖 Machine Learning Algorithms</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='linear_regression.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>Linear Regression</h3>
+                <p>Continuous prediction</p>
+            </div>
+            <div class="card" onclick="location.href='logistic_regression.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>Logistic Regression</h3>
+                <p>Binary classification</p>
+            </div>
+            <div class="card" onclick="location.href='decision_tree.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>Decision Tree</h3>
+                <p>Tree-based classifier</p>
+            </div>
+            <div class="card" onclick="location.href='random_forest.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>Random Forest</h3>
+                <p>Ensemble of trees</p>
+            </div>
+            <div class="card" onclick="location.href='svm.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>SVM</h3>
+                <p>Support Vector Machine</p>
+            </div>
+            <div class="card" onclick="location.href='kmeans.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>K-Means</h3>
+                <p>Clustering algorithm</p>
+            </div>
+            <div class="card" onclick="location.href='knn.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>K-NN</h3>
+                <p>K-Nearest Neighbors</p>
+            </div>
+            <div class="card" onclick="location.href='gradient_boosting.html'">
+                <span class="category cat-ml">ML</span>
+                <h3>Gradient Boosting</h3>
+                <p>Sequential ensemble</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>✨ 31 Interactive Algorithm Visualizations | Built with HTML5 Canvas & JavaScript</p>
+        <p>Part of Multi-Language Algorithm Library (403 implementations across 13 languages)</p>
+    </footer>
+</body>
+</html>
