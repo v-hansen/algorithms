@@ -1,16 +1,38 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <cctype>
+using namespace std;
 
-bool isPalindrome(std::string str) {
-    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-    std::string reversed = str;
-    std::reverse(reversed.begin(), reversed.end());
-    return str == reversed;
+bool isPalindrome(const string& s) {
+    int left = 0, right = s.length() - 1;
+    while (left < right) {
+        if (s[left] != s[right]) return false;
+        left++;
+        right--;
+    }
+    return true;
+}
+
+bool isPalindromeReverse(const string& s) {
+    string reversed = s;
+    reverse(reversed.begin(), reversed.end());
+    return s == reversed;
+}
+
+bool isPalindromeClean(const string& s) {
+    string cleaned;
+    for (char c : s) {
+        if (isalnum(c)) {
+            cleaned += tolower(c);
+        }
+    }
+    return isPalindrome(cleaned);
 }
 
 int main() {
-    std::cout << std::boolalpha << isPalindrome("racecar") << std::endl;
-    std::cout << std::boolalpha << isPalindrome("hello") << std::endl;
+    cout << isPalindrome("racecar") << endl;
+    cout << isPalindromeReverse("level") << endl;
+    cout << isPalindromeClean("A man, a plan, a canal: Panama") << endl;
     return 0;
 }
