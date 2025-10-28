@@ -24,15 +24,15 @@ eval(code);
 
 describe('Edit Distance', () => {
   test('test case 1', () => {
-    expect(edit_distance("kitten", "sitting")).toBe(3);
+    expect(editDistance("kitten", "sitting")).toBe(3);
   });
 
   test('test case 2', () => {
-    expect(edit_distance("horse", "ros")).toBe(3);
+    expect(editDistance("horse", "ros")).toBe(3);
   });
 
   test('test case 3', () => {
-    expect(edit_distance("", "")).toBe(0);
+    expect(editDistance("", "")).toBe(0);
   });
 
 });

@@ -24,11 +24,11 @@ eval(code);
 
 describe('Knapsack Problem', () => {
   test('test case 1', () => {
-    expect(knapsack_01([10, 20, 30], [60, 100, 120], 50)).toEqual(220);
+    expect(knapsack01([10, 20, 30], [60, 100, 120], 50)).toEqual(220);
   });
 
   test('test case 2', () => {
-    expect(knapsack_01([1, 1, 1], [10, 20, 30], 2)).toEqual(50);
+    expect(knapsack01([1, 1, 1], [10, 20, 30], 2)).toEqual(50);
   });
 
 });

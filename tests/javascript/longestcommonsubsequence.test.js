@@ -24,11 +24,11 @@ eval(code);
 
 describe('Longest Common Subsequence', () => {
   test('test case 1', () => {
-    expect(lcs_length("ABCDGH", "AEDFHR")).toBe(3);
+    expect(lcsLength("ABCDGH", "AEDFHR")).toBe(3);
   });
 
   test('test case 2', () => {
-    expect(lcs_length("AGGTAB", "GXTXAYB")).toBe(4);
+    expect(lcsLength("AGGTAB", "GXTXAYB")).toBe(4);
   });
 
 });

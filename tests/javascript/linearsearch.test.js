@@ -24,15 +24,15 @@ eval(code);
 
 describe('Linear Search', () => {
   test('test case 1', () => {
-    expect(linear_search([['3, 1, 4, 1, 5']], 4)).toBe(2);
+    expect(linearSearch([3, 1, 4, 1, 5], 4)).toEqual(2);
   });
 
   test('test case 2', () => {
-    expect(linear_search([['3, 1, 4, 1, 5']], 9)).toBe(-1);
+    expect(linearSearch([3, 1, 4, 1, 5], 9)).toEqual(-1);
   });
 
   test('test case 3', () => {
-    expect(linear_search([], 1)).toEqual(-1);
+    expect(linearSearch([], 1)).toEqual(-1);
   });
 
 });

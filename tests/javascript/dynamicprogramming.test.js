@@ -24,11 +24,11 @@ eval(code);
 
 describe('Dynamic Programming', () => {
   test('test case 1', () => {
-    expect(fibonacci_dp(10)).toBe(55);
+    expect(fibonacciDp(10)).toBe(55);
   });
 
   test('test case 2', () => {
-    expect(fibonacci_dp(5)).toBe(5);
+    expect(fibonacciDp(5)).toBe(5);
   });
 
 });

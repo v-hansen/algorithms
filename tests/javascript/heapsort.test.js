@@ -24,7 +24,7 @@ eval(code);
 
 describe('Heap Sort', () => {
   test('test case 1', () => {
-    expect(heap_sort([['5, 4, 3, 2, 1']], None)).toBe([1, 2, 3, 4, 5]);
+    expect(heapSort([5, 4, 3, 2, 1])).toEqual([1, 2, 3, 4, 5]);
   });
 
 });

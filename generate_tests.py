@@ -286,9 +286,16 @@ except AttributeError:
     
     return test_code
 
+def snake_to_camel(snake_str):
+    """Convert snake_case to camelCase"""
+    components = snake_str.split('_')
+    return components[0] + ''.join(x.title() for x in components[1:])
+
 def generate_javascript_test(algo_name, config):
     """Generate JavaScript Jest test file"""
     func_name = config['function']
+    # Convert to camelCase for JavaScript
+    js_func_name = snake_to_camel(func_name)
     
     # Try different file naming patterns
     file_variants = [
@@ -326,16 +333,43 @@ describe('{algo_name.replace("-", " ").replace("_", " ").title()}', () => {{
     
     for i, test in enumerate(config['tests'], 1):
         arr, arg, expected = test
+        
+        # Convert Python None to JS null
+        if arg == 'None':
+            arg = 'null'
+        if expected == 'None':
+            expected = 'null'
+            
         test_code += f'''  test('test case {i}', () => {{
 '''
         if arr and isinstance(arr, str) and arr.startswith('['):
-            test_code += f'''    expect({func_name}({arr}, {arg})).toEqual({expected});
+            # Direct array literal string like "[1, 2, 3]"
+            if arg and arg != 'null':
+                test_code += f'''    expect({js_func_name}({arr}, {arg})).toEqual({expected});
+'''
+            else:
+                test_code += f'''    expect({js_func_name}({arr})).toEqual({expected});
+'''
+        elif arr and isinstance(arr, list):
+            # List like ['5, 4, 3, 2, 1'] - convert to proper array
+            arr_str = arr[0] if len(arr) == 1 else ', '.join(arr)
+            if arg and arg != 'null':
+                test_code += f'''    expect({js_func_name}([{arr_str}], {arg})).toEqual({expected});
+'''
+            else:
+                test_code += f'''    expect({js_func_name}([{arr_str}])).toEqual({expected});
 '''
         elif arr:
-            test_code += f'''    expect({func_name}([{arr}], {arg})).toBe({expected});
+            # String like "5, 4, 3, 2, 1"
+            if arg and arg != 'null':
+                test_code += f'''    expect({js_func_name}([{arr}], {arg})).toEqual({expected});
+'''
+            else:
+                test_code += f'''    expect({js_func_name}([{arr}])).toEqual({expected});
 '''
         else:
-            test_code += f'''    expect({func_name}({arg})).toBe({expected});
+            # No array, just arguments
+            test_code += f'''    expect({js_func_name}({arg})).toBe({expected});
 '''
         test_code += f'''  }});
 

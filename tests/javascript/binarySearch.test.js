@@ -24,19 +24,19 @@ eval(code);
 
 describe('Binary Search', () => {
   test('test case 1', () => {
-    expect(binary_search([['1, 2, 3, 4, 5']], 3)).toBe(2);
+    expect(binarySearch([1, 2, 3, 4, 5], 3)).toEqual(2);
   });
 
   test('test case 2', () => {
-    expect(binary_search([['1, 2, 3, 4, 5']], 1)).toBe(0);
+    expect(binarySearch([1, 2, 3, 4, 5], 1)).toEqual(0);
   });
 
   test('test case 3', () => {
-    expect(binary_search([['1, 2, 3, 4, 5']], 6)).toBe(-1);
+    expect(binarySearch([1, 2, 3, 4, 5], 6)).toEqual(-1);
   });
 
   test('test case 4', () => {
-    expect(binary_search([], 1)).toEqual(-1);
+    expect(binarySearch([], 1)).toEqual(-1);
   });
 
 });

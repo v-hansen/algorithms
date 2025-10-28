@@ -24,7 +24,7 @@ eval(code);
 
 describe('Matrix Multiplication', () => {
   test('test case 1', () => {
-    expect(matrix_multiply([[1, 2], [3, 4]], [[5, 6], [7, 8]])).toEqual([[19, 22], [43, 50]]);
+    expect(matrixMultiply([[1, 2], [3, 4]], [[5, 6], [7, 8]])).toEqual([[19, 22], [43, 50]]);
   });
 
 });

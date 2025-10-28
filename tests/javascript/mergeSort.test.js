@@ -24,15 +24,15 @@ eval(code);
 
 describe('Merge Sort', () => {
   test('test case 1', () => {
-    expect(merge_sort([['5, 4, 3, 2, 1']], None)).toBe([1, 2, 3, 4, 5]);
+    expect(mergeSort([5, 4, 3, 2, 1])).toEqual([1, 2, 3, 4, 5]);
   });
 
   test('test case 2', () => {
-    expect(merge_sort([['1, 2, 3, 4, 5']], None)).toBe([1, 2, 3, 4, 5]);
+    expect(mergeSort([1, 2, 3, 4, 5])).toEqual([1, 2, 3, 4, 5]);
   });
 
   test('test case 3', () => {
-    expect(merge_sort([], None)).toEqual([]);
+    expect(mergeSort([])).toEqual([]);
   });
 
 });

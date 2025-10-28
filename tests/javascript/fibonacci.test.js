@@ -24,19 +24,19 @@ eval(code);
 
 describe('Fibonacci', () => {
   test('test case 1', () => {
-    expect(fibonacci_iterative(0)).toBe(0);
+    expect(fibonacciIterative(0)).toBe(0);
   });
 
   test('test case 2', () => {
-    expect(fibonacci_iterative(1)).toBe(1);
+    expect(fibonacciIterative(1)).toBe(1);
   });
 
   test('test case 3', () => {
-    expect(fibonacci_iterative(5)).toBe(5);
+    expect(fibonacciIterative(5)).toBe(5);
   });
 
   test('test case 4', () => {
-    expect(fibonacci_iterative(10)).toBe(55);
+    expect(fibonacciIterative(10)).toBe(55);
   });
 
 });
