@@ -1,0 +1,14 @@
+{
+  "name": "algorithms-tests",
+  "version": "1.0.0",
+  "description": "Unit tests for JavaScript algorithm implementations",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}

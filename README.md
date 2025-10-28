@@ -5,6 +5,7 @@
 [![Implementations](https://img.shields.io/badge/implementations-442-orange.svg)](#-project-overview)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](./LICENSE)
 [![Completion](https://img.shields.io/badge/completion-100%25-brightgreen.svg)](#-project-overview)
+[![Tests](https://github.com/v-hansen/algorithms/workflows/Test%20Algorithms/badge.svg)](https://github.com/v-hansen/algorithms/actions)
 
 A comprehensive collection of **34 fundamental algorithms** implemented in **13 programming languages**. This repository serves as both a learning resource and a practical reference for algorithm implementations across different programming paradigms.
 
