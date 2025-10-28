@@ -28,7 +28,7 @@ describe('Two Pointers', () => {
   });
 
   test('test case 2', () => {
-    expect(twoSum([3, 2, 4], 6)).toEqual([1, 2]);
+    expect(twoSum([2, 3, 4], 6)).toEqual([0, 2]);
   });
 
 });

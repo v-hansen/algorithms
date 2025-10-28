@@ -217,7 +217,7 @@ ALGORITHMS = {
         'tests': [],  # Requires class/training
     },
     'dynamic-programming': {
-        'function': 'fibonacci_dp',
+        'function': 'fibMemo',  # Changed from fibonacci_dp
         'tests': [
             (None, '10', '55'),
             (None, '5', '5'),
@@ -298,11 +298,22 @@ def generate_javascript_test(algo_name, config):
     js_func_name = snake_to_camel(func_name)
     
     # Try different file naming patterns
+    base_name = algo_name.replace('-', '_')
     file_variants = [
         f'{algo_name}.js',
-        f'{algo_name.replace("-", "_")}.js',
+        f'{base_name}.js',
         f'{algo_name.replace("_", "-")}.js',
     ]
+    
+    # Add common abbreviations
+    abbrevs = {
+        'longest-common-subsequence': 'lcs',
+        'binary-search-tree': 'bst',
+        'depth-first-search': 'dfs',
+        'breadth-first-search': 'bfs',
+    }
+    if algo_name in abbrevs:
+        file_variants.insert(0, f'{abbrevs[algo_name]}.js')
     
     test_code = f'''const fs = require('fs');
 const path = require('path');
@@ -334,11 +345,15 @@ describe('{algo_name.replace("-", " ").replace("_", " ").title()}', () => {{
     for i, test in enumerate(config['tests'], 1):
         arr, arg, expected = test
         
-        # Convert Python None to JS null
+        # Convert Python types to JS types
         if arg == 'None':
             arg = 'null'
         if expected == 'None':
             expected = 'null'
+        if expected == 'True':
+            expected = 'true'
+        if expected == 'False':
+            expected = 'false'
             
         test_code += f'''  test('test case {i}', () => {{
 '''
@@ -369,7 +384,12 @@ describe('{algo_name.replace("-", " ").replace("_", " ").title()}', () => {{
 '''
         else:
             # No array, just arguments
-            test_code += f'''    expect({js_func_name}({arg})).toBe({expected});
+            # Use toEqual for array results, toBe for primitives
+            if expected.startswith('['):
+                test_code += f'''    expect({js_func_name}({arg})).toEqual({expected});
+'''
+            else:
+                test_code += f'''    expect({js_func_name}({arg})).toBe({expected});
 '''
         test_code += f'''  }});
 

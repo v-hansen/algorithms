@@ -3,7 +3,7 @@ const path = require('path');
 
 // Try to find the implementation file
 const algoDir = path.join(__dirname, '../../longest-common-subsequence');
-const possibleFiles = ['longest-common-subsequence.js', 'longest_common_subsequence.js', 'longest-common-subsequence.js'];
+const possibleFiles = ['lcs.js', 'longest-common-subsequence.js', 'longest_common_subsequence.js'];
 let code = null;
 
 for (const file of possibleFiles) {

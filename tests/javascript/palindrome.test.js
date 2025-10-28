@@ -24,15 +24,15 @@ eval(code);
 
 describe('Palindrome', () => {
   test('test case 1', () => {
-    expect(isPalindromeSimple("racecar")).toBe(True);
+    expect(isPalindromeSimple("racecar")).toBe(true);
   });
 
   test('test case 2', () => {
-    expect(isPalindromeSimple("hello")).toBe(False);
+    expect(isPalindromeSimple("hello")).toBe(false);
   });
 
   test('test case 3', () => {
-    expect(isPalindromeSimple("")).toBe(True);
+    expect(isPalindromeSimple("")).toBe(true);
   });
 
 });

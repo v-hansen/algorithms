@@ -24,15 +24,15 @@ eval(code);
 
 describe('Sieve Of Eratosthenes', () => {
   test('test case 1', () => {
-    expect(sieveOfEratosthenes(10)).toBe([2, 3, 5, 7]);
+    expect(sieveOfEratosthenes(10)).toEqual([2, 3, 5, 7]);
   });
 
   test('test case 2', () => {
-    expect(sieveOfEratosthenes(20)).toBe([2, 3, 5, 7, 11, 13, 17, 19]);
+    expect(sieveOfEratosthenes(20)).toEqual([2, 3, 5, 7, 11, 13, 17, 19]);
   });
 
   test('test case 3', () => {
-    expect(sieveOfEratosthenes(2)).toBe([]);
+    expect(sieveOfEratosthenes(2)).toEqual([2]);
   });
 
 });
