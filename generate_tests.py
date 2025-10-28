@@ -157,6 +157,72 @@ ALGORITHMS = {
             ('[3, 2, 4]', '6', '[1, 2]'),
         ]
     },
+    'binary-search-tree': {
+        'function': 'BST',
+        'tests': [],  # Requires class instantiation
+    },
+    'linked-list': {
+        'function': 'LinkedList',
+        'tests': [],  # Requires class instantiation
+    },
+    'trie': {
+        'function': 'Trie',
+        'tests': [],  # Requires class instantiation
+    },
+    'dijkstra-algorithm': {
+        'function': 'dijkstra',
+        'tests': [],  # Complex graph structure
+    },
+    'topological-sort': {
+        'function': 'topological_sort',
+        'tests': [],  # Complex graph structure
+    },
+    'kmp-algorithm': {
+        'function': 'kmp_search',
+        'tests': [
+            (None, '"ABABDABACDABABCABAB", "ABABCABAB"', '10'),
+            (None, '"AABAACAADAABAABA", "AABA"', '0'),
+        ]
+    },
+    'linear-regression': {
+        'function': 'linear_regression',
+        'tests': [],  # Requires numpy/training
+    },
+    'logistic-regression': {
+        'function': 'logistic_regression',
+        'tests': [],  # Requires numpy/training
+    },
+    'decision-trees': {
+        'function': 'DecisionTree',
+        'tests': [],  # Requires class/training
+    },
+    'random-forest': {
+        'function': 'RandomForest',
+        'tests': [],  # Requires class/training
+    },
+    'support-vector-machines': {
+        'function': 'SVM',
+        'tests': [],  # Requires class/training
+    },
+    'k-means-clustering': {
+        'function': 'kmeans',
+        'tests': [],  # Requires numpy
+    },
+    'k-nearest-neighbors': {
+        'function': 'knn',
+        'tests': [],  # Requires numpy
+    },
+    'gradient-boosting': {
+        'function': 'GradientBoosting',
+        'tests': [],  # Requires class/training
+    },
+    'dynamic-programming': {
+        'function': 'fibonacci_dp',
+        'tests': [
+            (None, '10', '55'),
+            (None, '5', '5'),
+        ]
+    },
 }
 
 def generate_python_test(algo_name, config):
@@ -266,6 +332,11 @@ def main():
         algo_dir = base_dir / algo_name
         if not algo_dir.exists():
             print(f"⚠️  Skipping {algo_name} (directory not found)")
+            continue
+        
+        # Skip if no tests defined
+        if not config['tests']:
+            print(f"⏭️  Skipping {algo_name} (no tests defined - requires manual implementation)")
             continue
         
         # Generate Python test

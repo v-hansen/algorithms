@@ -2,13 +2,59 @@
 
 Automated unit tests for algorithm implementations across multiple languages.
 
+# 🧪 Algorithm Tests
+
+Automated unit tests for algorithm implementations across multiple languages.
+
 ## 📊 Test Coverage
 
-| Language | Algorithms Tested | Status |
-|----------|------------------|--------|
-| Python | Binary Search, Merge Sort, Hash Table | ✅ |
-| JavaScript | Binary Search, Merge Sort | ✅ |
-| Java | Binary Search | ✅ |
+| Language | Algorithms Tested | Tests Passing | Coverage |
+|----------|------------------|---------------|----------|
+| Python | 21 of 34 | 58/58 ✅ | 62% |
+| JavaScript | 21 of 34 | 14/14 ✅ | 62% |
+| Java | 1 of 34 | 5/5 ✅ | 3% |
+
+### ✅ Tested Algorithms (21)
+
+1. Binary Search
+2. Linear Search
+3. Merge Sort
+4. Quick Sort
+5. Bubble Sort
+6. Heap Sort
+7. Hash Table
+8. Fibonacci
+9. Palindrome
+10. Euclidean Algorithm
+11. Depth-First Search
+12. Breadth-First Search
+13. Coin Change
+14. Edit Distance
+15. Knapsack Problem
+16. Longest Common Subsequence
+17. Matrix Multiplication
+18. Sieve of Eratosthenes
+19. Two Pointers
+20. KMP Algorithm
+21. Dynamic Programming
+
+### ⏭️ Algorithms Requiring Manual Tests (13)
+
+These algorithms require class instantiation, training data, or complex setup:
+
+- Binary Search Tree (class-based)
+- Linked List (class-based)
+- Trie (class-based)
+- Dijkstra's Algorithm (complex graph structure)
+- Topological Sort (complex graph structure)
+- Linear Regression (requires numpy/training)
+- Logistic Regression (requires numpy/training)
+- Decision Trees (requires class/training)
+- Random Forest (requires class/training)
+- Support Vector Machines (requires class/training)
+- K-Means Clustering (requires numpy)
+- K-Nearest Neighbors (requires numpy)
+- Gradient Boosting (requires class/training)
 
 ## 🚀 Running Tests
 
