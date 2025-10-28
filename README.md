@@ -284,14 +284,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Open Source Contributors** for language implementations
 - **Educational Institutions** for algorithmic foundations
 
-## 📊 Statistics
-
-- **Total Files**: 403
-- **Total Lines of Code**: ~25,000+
-- **Languages Covered**: 13
-- **Algorithm Categories**: 8
-- **Complexity Classes**: All major classes covered
-
 ---
 
 **⭐ Star this repository if you find it helpful!**
