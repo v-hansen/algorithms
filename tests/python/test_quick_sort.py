@@ -29,10 +29,10 @@ except AttributeError:
         raise AttributeError(f"Function 'quick_sort' not found in module")
 
 def test_case_1():
-    arr = [['5, 4, 3, 2, 1']]
-    assert quick_sort(arr, None) == [1, 2, 3, 4, 5]
+    arr = [5, 4, 3, 2, 1]
+    assert quick_sort(arr) == [1, 2, 3, 4, 5]
 
 def test_case_2():
-    arr = [['3, 1, 4, 1, 5']]
-    assert quick_sort(arr, None) == [1, 1, 3, 4, 5]
+    arr = [3, 1, 4, 1, 5]
+    assert quick_sort(arr) == [1, 1, 3, 4, 5]
 

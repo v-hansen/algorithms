@@ -29,10 +29,10 @@ except AttributeError:
         raise AttributeError(f"Function 'bubble_sort' not found in module")
 
 def test_case_1():
-    arr = [['5, 4, 3, 2, 1']]
-    assert bubble_sort(arr, None) == [1, 2, 3, 4, 5]
+    arr = [5, 4, 3, 2, 1]
+    assert bubble_sort(arr) == [1, 2, 3, 4, 5]
 
 def test_case_2():
-    arr = [['1, 2, 3']]
-    assert bubble_sort(arr, None) == [1, 2, 3]
+    arr = [1, 2, 3]
+    assert bubble_sort(arr) == [1, 2, 3]
 

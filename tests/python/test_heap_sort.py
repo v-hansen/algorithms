@@ -29,6 +29,6 @@ except AttributeError:
         raise AttributeError(f"Function 'heap_sort' not found in module")
 
 def test_case_1():
-    arr = [['5, 4, 3, 2, 1']]
-    assert heap_sort(arr, None) == [1, 2, 3, 4, 5]
+    arr = [5, 4, 3, 2, 1]
+    assert heap_sort(arr) == [1, 2, 3, 4, 5]
 

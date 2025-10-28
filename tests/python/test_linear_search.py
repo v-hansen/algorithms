@@ -29,14 +29,14 @@ except AttributeError:
         raise AttributeError(f"Function 'linear_search' not found in module")
 
 def test_case_1():
-    arr = [['3, 1, 4, 1, 5']]
+    arr = [3, 1, 4, 1, 5]
     assert linear_search(arr, 4) == 2
 
 def test_case_2():
-    arr = [['3, 1, 4, 1, 5']]
+    arr = [3, 1, 4, 1, 5]
     assert linear_search(arr, 9) == -1
 
 def test_case_3():
-    arr = [[]]
+    arr = []
     assert linear_search(arr, 1) == -1
 
