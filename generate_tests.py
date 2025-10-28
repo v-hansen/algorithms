@@ -86,6 +86,77 @@ ALGORITHMS = {
             (None, '""', 'True'),
         ]
     },
+    'euclidean-algorithm': {
+        'function': 'gcd',
+        'tests': [
+            (None, '48, 18', '6'),
+            (None, '100, 50', '50'),
+            (None, '17, 19', '1'),
+        ]
+    },
+    'depth-first-search': {
+        'function': 'dfs',
+        'tests': [
+            ({'0': ['1', '2'], '1': ['3'], '2': ['4'], '3': [], '4': []}, '"0"', "['0', '1', '3', '2', '4']"),
+        ]
+    },
+    'breadth-first-search': {
+        'function': 'bfs',
+        'tests': [
+            ({'0': ['1', '2'], '1': ['3'], '2': ['4'], '3': [], '4': []}, '"0"', "['0', '1', '2', '3', '4']"),
+        ]
+    },
+    'coin-change': {
+        'function': 'coin_change',
+        'tests': [
+            ('[1, 2, 5]', '11', '3'),
+            ('[2]', '3', '-1'),
+            ('[1]', '0', '0'),
+        ]
+    },
+    'edit-distance': {
+        'function': 'edit_distance',
+        'tests': [
+            (None, '"kitten", "sitting"', '3'),
+            (None, '"horse", "ros"', '3'),
+            (None, '"", ""', '0'),
+        ]
+    },
+    'knapsack-problem': {
+        'function': 'knapsack_01',
+        'tests': [
+            ('[10, 20, 30]', '[60, 100, 120], 50', '220'),
+            ('[1, 1, 1]', '[10, 20, 30], 2', '50'),
+        ]
+    },
+    'longest-common-subsequence': {
+        'function': 'lcs_length',
+        'tests': [
+            (None, '"ABCDGH", "AEDFHR"', '3'),
+            (None, '"AGGTAB", "GXTXAYB"', '4'),
+        ]
+    },
+    'matrix-multiplication': {
+        'function': 'matrix_multiply',
+        'tests': [
+            ('[[1, 2], [3, 4]]', '[[5, 6], [7, 8]]', '[[19, 22], [43, 50]]'),
+        ]
+    },
+    'sieve-of-eratosthenes': {
+        'function': 'sieve_of_eratosthenes',
+        'tests': [
+            (None, '10', '[2, 3, 5, 7]'),
+            (None, '20', '[2, 3, 5, 7, 11, 13, 17, 19]'),
+            (None, '2', '[]'),
+        ]
+    },
+    'two_pointers': {
+        'function': 'two_sum',
+        'tests': [
+            ('[2, 7, 11, 15]', '9', '[0, 1]'),
+            ('[3, 2, 4]', '6', '[1, 2]'),
+        ]
+    },
 }
 
 def generate_python_test(algo_name, config):
@@ -129,12 +200,20 @@ except AttributeError:
         arr, arg, expected = test
         test_code += f'''def test_case_{i}():
 '''
-        if arr:
+        if arr and arr.startswith('['):
+            # Direct array literal
+            test_code += f'''    arr = {arr}
+    assert {func_name}(arr, {arg}) == {expected}
+
+'''
+        elif arr:
+            # Array with values
             test_code += f'''    arr = [{arr}]
     assert {func_name}(arr, {arg}) == {expected}
 
 '''
         else:
+            # No array, just arguments
             test_code += f'''    assert {func_name}({arg}) == {expected}
 
 '''
