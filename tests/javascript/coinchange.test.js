@@ -1,22 +1,38 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load implementation
-const algoPath = path.join(__dirname, '../../coin-change/coin-change.js');
-const code = fs.readFileSync(algoPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../coin-change');
+const possibleFiles = ['coin-change.js', 'coin_change.js', 'coin-change.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for coin-change');
+}
+
 eval(code);
 
 describe('Coin Change', () => {
   test('test case 1', () => {
-    expect(coin_change([[1, 2, 5]], 11)).toBe(3);
+    expect(coin_change([1, 2, 5], 11)).toEqual(3);
   });
 
   test('test case 2', () => {
-    expect(coin_change([[2]], 3)).toBe(-1);
+    expect(coin_change([2], 3)).toEqual(-1);
   });
 
   test('test case 3', () => {
-    expect(coin_change([[1]], 0)).toBe(0);
+    expect(coin_change([1], 0)).toEqual(0);
   });
 
 });

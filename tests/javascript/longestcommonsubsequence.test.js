@@ -1,18 +1,34 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load implementation
-const algoPath = path.join(__dirname, '../../longest-common-subsequence/longest-common-subsequence.js');
-const code = fs.readFileSync(algoPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../longest-common-subsequence');
+const possibleFiles = ['longest-common-subsequence.js', 'longest_common_subsequence.js', 'longest-common-subsequence.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for longest-common-subsequence');
+}
+
 eval(code);
 
 describe('Longest Common Subsequence', () => {
   test('test case 1', () => {
-    expect(lcs("ABCDGH", "AEDFHR")).toBe(3);
+    expect(lcs_length("ABCDGH", "AEDFHR")).toBe(3);
   });
 
   test('test case 2', () => {
-    expect(lcs("AGGTAB", "GXTXAYB")).toBe(4);
+    expect(lcs_length("AGGTAB", "GXTXAYB")).toBe(4);
   });
 
 });

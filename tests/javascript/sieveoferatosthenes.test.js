@@ -1,9 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load implementation
-const algoPath = path.join(__dirname, '../../sieve-of-eratosthenes/sieve-of-eratosthenes.js');
-const code = fs.readFileSync(algoPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../sieve-of-eratosthenes');
+const possibleFiles = ['sieve-of-eratosthenes.js', 'sieve_of_eratosthenes.js', 'sieve-of-eratosthenes.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for sieve-of-eratosthenes');
+}
+
 eval(code);
 
 describe('Sieve Of Eratosthenes', () => {

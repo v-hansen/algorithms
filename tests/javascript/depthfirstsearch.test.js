@@ -1,9 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load implementation
-const algoPath = path.join(__dirname, '../../depth-first-search/depth-first-search.js');
-const code = fs.readFileSync(algoPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../depth-first-search');
+const possibleFiles = ['depth-first-search.js', 'depth_first_search.js', 'depth-first-search.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for depth-first-search');
+}
+
 eval(code);
 
 describe('Depth First Search', () => {

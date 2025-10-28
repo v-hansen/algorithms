@@ -1,9 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load implementation
-const algoPath = path.join(__dirname, '../../kmp-algorithm/kmp-algorithm.js');
-const code = fs.readFileSync(algoPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../kmp-algorithm');
+const possibleFiles = ['kmp-algorithm.js', 'kmp_algorithm.js', 'kmp-algorithm.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for kmp-algorithm');
+}
+
 eval(code);
 
 describe('Kmp Algorithm', () => {

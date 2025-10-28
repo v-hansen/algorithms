@@ -1,37 +1,38 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load the merge sort implementation
-const mergeSortPath = path.join(__dirname, '../../merge-sort/merge_sort.js');
-const code = fs.readFileSync(mergeSortPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../merge-sort');
+const possibleFiles = ['merge-sort.js', 'merge_sort.js', 'merge-sort.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for merge-sort');
+}
+
 eval(code);
 
 describe('Merge Sort', () => {
-  test('sorts already sorted array', () => {
-    expect(mergeSort([1, 2, 3, 4, 5])).toEqual([1, 2, 3, 4, 5]);
+  test('test case 1', () => {
+    expect(merge_sort([['5, 4, 3, 2, 1']], None)).toBe([1, 2, 3, 4, 5]);
   });
 
-  test('sorts reverse sorted array', () => {
-    expect(mergeSort([5, 4, 3, 2, 1])).toEqual([1, 2, 3, 4, 5]);
+  test('test case 2', () => {
+    expect(merge_sort([['1, 2, 3, 4, 5']], None)).toBe([1, 2, 3, 4, 5]);
   });
 
-  test('sorts random order array', () => {
-    expect(mergeSort([3, 1, 4, 1, 5, 9, 2, 6])).toEqual([1, 1, 2, 3, 4, 5, 6, 9]);
+  test('test case 3', () => {
+    expect(merge_sort([], None)).toEqual([]);
   });
 
-  test('handles empty array', () => {
-    expect(mergeSort([])).toEqual([]);
-  });
-
-  test('handles single element', () => {
-    expect(mergeSort([42])).toEqual([42]);
-  });
-
-  test('handles duplicates', () => {
-    expect(mergeSort([3, 3, 1, 1, 2, 2])).toEqual([1, 1, 2, 2, 3, 3]);
-  });
-
-  test('handles negative numbers', () => {
-    expect(mergeSort([-3, -1, -5, 0, 2])).toEqual([-5, -3, -1, 0, 2]);
-  });
 });

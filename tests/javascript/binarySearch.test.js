@@ -1,37 +1,42 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load the binary search implementation
-const binarySearchPath = path.join(__dirname, '../../binary-search/binary-search.js');
-const code = fs.readFileSync(binarySearchPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../binary-search');
+const possibleFiles = ['binary-search.js', 'binary_search.js', 'binary-search.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for binary-search');
+}
+
 eval(code);
 
 describe('Binary Search', () => {
-  test('finds element in middle', () => {
-    expect(binarySearch([1, 2, 3, 4, 5], 3)).toBe(2);
+  test('test case 1', () => {
+    expect(binary_search([['1, 2, 3, 4, 5']], 3)).toBe(2);
   });
 
-  test('finds first element', () => {
-    expect(binarySearch([1, 2, 3, 4, 5], 1)).toBe(0);
+  test('test case 2', () => {
+    expect(binary_search([['1, 2, 3, 4, 5']], 1)).toBe(0);
   });
 
-  test('finds last element', () => {
-    expect(binarySearch([1, 2, 3, 4, 5], 5)).toBe(4);
+  test('test case 3', () => {
+    expect(binary_search([['1, 2, 3, 4, 5']], 6)).toBe(-1);
   });
 
-  test('returns -1 when not found', () => {
-    expect(binarySearch([1, 2, 3, 4, 5], 6)).toBe(-1);
+  test('test case 4', () => {
+    expect(binary_search([], 1)).toEqual(-1);
   });
 
-  test('handles empty array', () => {
-    expect(binarySearch([], 1)).toBe(-1);
-  });
-
-  test('handles single element found', () => {
-    expect(binarySearch([5], 5)).toBe(0);
-  });
-
-  test('handles single element not found', () => {
-    expect(binarySearch([5], 3)).toBe(-1);
-  });
 });

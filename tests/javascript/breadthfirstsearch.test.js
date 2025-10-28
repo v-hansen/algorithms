@@ -1,9 +1,25 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load implementation
-const algoPath = path.join(__dirname, '../../breadth-first-search/breadth-first-search.js');
-const code = fs.readFileSync(algoPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../breadth-first-search');
+const possibleFiles = ['breadth-first-search.js', 'breadth_first_search.js', 'breadth-first-search.js'];
+let code = null;
+
+for (const file of possibleFiles) {
+  try {
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  } catch (e) {
+    // Try next variant
+  }
+}
+
+if (!code) {
+  throw new Error('Could not find implementation file for breadth-first-search');
+}
+
 eval(code);
 
 describe('Breadth First Search', () => {

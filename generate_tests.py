@@ -289,24 +289,49 @@ except AttributeError:
 def generate_javascript_test(algo_name, config):
     """Generate JavaScript Jest test file"""
     func_name = config['function']
-    file_name = algo_name.replace('_', '-')
+    
+    # Try different file naming patterns
+    file_variants = [
+        f'{algo_name}.js',
+        f'{algo_name.replace("-", "_")}.js',
+        f'{algo_name.replace("_", "-")}.js',
+    ]
     
     test_code = f'''const fs = require('fs');
 const path = require('path');
 
-// Load implementation
-const algoPath = path.join(__dirname, '../../{algo_name}/{file_name}.js');
-const code = fs.readFileSync(algoPath, 'utf8');
+// Try to find the implementation file
+const algoDir = path.join(__dirname, '../../{algo_name}');
+const possibleFiles = {file_variants};
+let code = null;
+
+for (const file of possibleFiles) {{
+  try {{
+    const filePath = path.join(algoDir, file);
+    code = fs.readFileSync(filePath, 'utf8');
+    break;
+  }} catch (e) {{
+    // Try next variant
+  }}
+}}
+
+if (!code) {{
+  throw new Error('Could not find implementation file for {algo_name}');
+}}
+
 eval(code);
 
-describe('{algo_name.replace("-", " ").title()}', () => {{
+describe('{algo_name.replace("-", " ").replace("_", " ").title()}', () => {{
 '''
     
     for i, test in enumerate(config['tests'], 1):
         arr, arg, expected = test
         test_code += f'''  test('test case {i}', () => {{
 '''
-        if arr:
+        if arr and isinstance(arr, str) and arr.startswith('['):
+            test_code += f'''    expect({func_name}({arr}, {arg})).toEqual({expected});
+'''
+        elif arr:
             test_code += f'''    expect({func_name}([{arr}], {arg})).toBe({expected});
 '''
         else:
