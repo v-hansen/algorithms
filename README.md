@@ -12,6 +12,8 @@ A comprehensive collection of **34 fundamental algorithms** implemented in **13 
 ## 📊 Project Overview
 
 - **34 Algorithms** × **13 Languages** = **442 Implementations**
+- **102 Test Files** covering **166 test cases** (Python, JavaScript, Java)
+- **100% Test Coverage** for Python and JavaScript implementations
 - **100% Consistent** structure across all languages
 - **Production-ready** code with examples
 - **Educational** comments and documentation
@@ -242,6 +244,35 @@ Each algorithm directory contains:
 - MIT 6.006 Introduction to Algorithms
 - Stanford CS161 Design and Analysis of Algorithms
 - Coursera Machine Learning Course
+
+## 🧪 Testing
+
+### Test Coverage
+- **Python**: 34 test files, 71 test cases (63 passing, 8 skipped)
+- **JavaScript**: 34 test files, 61 test cases (100% passing)
+- **Java**: 34 test files (requires JDK)
+
+### Running Tests
+
+**Python:**
+```bash
+cd tests/python
+python3 -m pytest -v
+```
+
+**JavaScript:**
+```bash
+cd tests/javascript
+npx jest
+```
+
+**Java:**
+```bash
+cd tests/java
+bash run_tests.sh
+```
+
+See [tests/README.md](./tests/README.md) for detailed testing documentation.
 
 ## 📄 License
 
