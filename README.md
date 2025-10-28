@@ -114,8 +114,8 @@ A comprehensive collection of **34 fundamental algorithms** implemented in **13 
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/yourusername/multi-language-algorithms.git
-cd multi-language-algorithms
+git clone v-hansen/algorithms.git
+cd algorithms
 ```
 
 ### Run Examples
